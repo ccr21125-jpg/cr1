@@ -1,9 +1,12 @@
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { authLinks, finalCtaContent } from "@/data/content";
+import { authLinks } from "@/data/content";
+import { getFinalCtaContent } from "@/services/content/siteContentService";
 
-export function FinalCTA() {
+export async function FinalCTA() {
+  const finalCtaContent = await getFinalCtaContent();
+
   return (
     <section aria-labelledby="cta-title" className="pb-24 sm:pb-32">
       <Container>

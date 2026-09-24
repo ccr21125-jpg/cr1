@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { footerNav, legalDisclaimer, siteConfig } from "@/data/content";
+import { footerNav, siteConfig } from "@/data/content";
+import { getLegalDisclaimer } from "@/services/content/siteContentService";
 import { Logo } from "./Logo";
 
-export function Footer() {
+export async function Footer() {
+  const legalDisclaimer = await getLegalDisclaimer();
+
   return (
     <footer className="border-t border-line bg-ink">
       <Container className="py-16 sm:py-20">
@@ -36,8 +39,8 @@ export function Footer() {
             Avvertenza sui rischi
           </h2>
           <div className="mt-3 space-y-2 text-xs leading-relaxed text-mist">
-            {legalDisclaimer.map((p) => (
-              <p key={p}>{p}</p>
+            {legalDisclaimer.map((p, i) => (
+              <p key={i}>{p}</p>
             ))}
           </div>
         </section>

@@ -730,6 +730,22 @@ export const adminPage = {
 };
 
 /* ===========================================================================
+ * 16. CONTENUTI DELLA HOMEPAGE (pannello amministrazione)
+ * =========================================================================== */
+
+export const siteContentPage = {
+  navLabel: "Contenuti sito",
+  title: "Contenuti della homepage",
+  description:
+    "Modifica i testi mostrati sulla homepage pubblica. Ogni sezione si salva a parte; le modifiche compaiono sul sito entro un minuto, o subito dopo il salvataggio.",
+  save: "Salva sezione",
+  saving: "Salvataggio…",
+  saveDone: "Sezione aggiornata.",
+  sensitiveWarning:
+    "Questo testo ha implicazioni legali o di conformità (rischio, disclaimer): modificalo solo dopo averlo verificato con chi segue gli aspetti legali.",
+};
+
+/* ===========================================================================
  * TIPI E FUNZIONI DI SUPPORTO — non serve modificarli per cambiare i testi.
  * =========================================================================== */
 

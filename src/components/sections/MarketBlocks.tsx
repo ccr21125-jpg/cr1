@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TradingViewCredit } from "@/components/ui/TradingViewWidget";
-import { marketContent } from "@/data/content";
+import { getMarketContent } from "@/services/content/siteContentService";
 import { BitcoinCard } from "./BitcoinCard";
 import { CryptoMarketGrid } from "./CryptoMarketGrid";
 
@@ -15,7 +15,9 @@ export function FeaturedMarket() {
   return <BitcoinCard />;
 }
 
-export function MarketBoard() {
+export async function MarketBoard() {
+  const marketContent = await getMarketContent();
+
   return (
     <>
       <SectionHeader

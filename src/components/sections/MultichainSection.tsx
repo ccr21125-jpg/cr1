@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { chains } from "@/data/chains";
-import { multichainContent as c } from "@/data/content";
+import { getMultichainContent } from "@/services/content/siteContentService";
 
 const RX = 36; // raggio orizzontale (% della larghezza)
 const RY = 34; // raggio verticale (% dell'altezza)
@@ -18,7 +18,9 @@ const nodes = chains.map((chain, i) => {
   };
 });
 
-export function MultichainSection() {
+export async function MultichainSection() {
+  const c = await getMultichainContent();
+
   return (
     <section id="multichain" aria-labelledby="multichain-title" className="py-24 sm:py-32">
       <Container>

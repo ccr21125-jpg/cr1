@@ -38,6 +38,9 @@ from (
     (6, '0006_deposit_details.sql',
         exists (select 1 from information_schema.columns
                  where table_schema = 'public' and table_name = 'profiles'
-                   and column_name = 'btc_address'))
+                   and column_name = 'btc_address')),
+
+    -- La 0007 aggiunge i testi della homepage modificabili dall'amministratore.
+    (7, '0007_site_content.sql', to_regclass('public.site_content') is not null)
 ) as m(ordine, file, applicata)
 order by m.ordine;

@@ -193,3 +193,22 @@ export async function decideWithdrawal(
   if (error) return { ok: false, code: logRpcError("admin_decide_withdrawal", error) };
   return { ok: true, status: typeof data === "string" ? data : "" };
 }
+
+/**
+ * Salva il testo di una sezione della homepage. Il lavoro vero è nella
+ * funzione SQL, che verifica da sé che chi chiama sia amministratore e
+ * sostituisce l'intero contenuto della sezione, non un campo alla volta.
+ */
+export async function setSiteContent(
+  sectionKey: string,
+  data: Record<string, string>,
+): Promise<{ ok: true } | { ok: false; code: string }> {
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc("admin_set_site_content", {
+    target_section: sectionKey,
+    content_data: data,
+  });
+
+  if (error) return { ok: false, code: logRpcError("admin_set_site_content", error) };
+  return { ok: true };
+}

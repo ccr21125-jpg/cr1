@@ -3,10 +3,10 @@ import { DemoBadge } from "@/components/ui/DemoBadge";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { StarRating } from "@/components/ui/StarRating";
-import { reviewsContent } from "@/data/content";
 import type { Review } from "@/data/reviews.mock";
 import { formatDate } from "@/lib/format";
 import { getReviews } from "@/services/content/reviewsService";
+import { getReviewsContent } from "@/services/content/siteContentService";
 
 function initials(name: string) {
   return name
@@ -49,7 +49,7 @@ function ReviewCard({ review }: { review: Review }) {
 }
 
 export async function Reviews() {
-  const { reviews, isDemo } = await getReviews();
+  const [{ reviews, isDemo }, reviewsContent] = await Promise.all([getReviews(), getReviewsContent()]);
 
   return (
     <section aria-labelledby="reviews-title" className="py-24 sm:py-32">

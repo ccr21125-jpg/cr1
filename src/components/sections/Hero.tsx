@@ -1,6 +1,7 @@
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { authLinks, heroContent } from "@/data/content";
+import { authLinks } from "@/data/content";
+import { getHeroContent } from "@/services/content/siteContentService";
 
 /**
  * Tracciato decorativo (non un dato di mercato): una linea che attraversa
@@ -10,7 +11,9 @@ import { authLinks, heroContent } from "@/data/content";
 const TRACE =
   "M0 250 L90 238 L160 246 L240 214 L310 222 L380 190 L450 204 L520 168 L600 176 L680 132 L740 148 L820 110 L900 118 L980 84 L1060 96 L1140 58 L1200 64";
 
-export function Hero() {
+export async function Hero() {
+  const heroContent = await getHeroContent();
+
   return (
     <section aria-labelledby="hero-title" className="relative isolate overflow-hidden">
       <div aria-hidden="true" className="bg-grid absolute inset-0 -z-10" />

@@ -2,14 +2,16 @@ import { Icon } from "@/components/icons/Icon";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { features, toolsContent } from "@/data/content";
 import { cn } from "@/lib/cn";
+import { getFeatures, getToolsContent } from "@/services/content/siteContentService";
 
 /**
  * Griglia asimmetrica: le prime due funzionalità occupano più spazio,
  * le successive si dispongono su tre colonne (layout a 6 colonne su desktop).
  */
-export function TradingTools() {
+export async function TradingTools() {
+  const [toolsContent, features] = await Promise.all([getToolsContent(), getFeatures()]);
+
   return (
     <section id="trading" aria-labelledby="trading-title" className="py-24 sm:py-32">
       <Container>

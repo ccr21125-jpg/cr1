@@ -2,11 +2,11 @@ import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
 import { Container } from "@/components/ui/Container";
 import { DemoBadge } from "@/components/ui/DemoBadge";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { statsContent } from "@/data/content";
+import { getStatsContent } from "@/services/content/siteContentService";
 import { getPlatformStats } from "@/services/content/statsService";
 
 export async function Statistics() {
-  const stats = await getPlatformStats();
+  const [stats, statsContent] = await Promise.all([getPlatformStats(), getStatsContent()]);
   const hasDemo = stats.some((s) => s.isDemo);
 
   return (

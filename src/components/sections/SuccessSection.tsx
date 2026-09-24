@@ -1,10 +1,12 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { successContent as c } from "@/data/content";
 import { cn } from "@/lib/cn";
+import { getSuccessContent } from "@/services/content/siteContentService";
+
+type SuccessContent = Awaited<ReturnType<typeof getSuccessContent>>;
 
 /** Metrica: mostra il dato solo se verificato (con fonte), altrimenti un segnaposto esplicito. */
-function MetricSlot() {
+function MetricSlot({ c }: { c: SuccessContent }) {
   if (c.verifiedMetric) {
     return (
       <div className="rounded-[var(--radius-card)] border border-line bg-panel p-6">
@@ -28,7 +30,7 @@ function MetricSlot() {
 }
 
 /** Pipeline concettuale: la linea verticale collega i passaggi, un punto la percorre lentamente. */
-function FlowPanel() {
+function FlowPanel({ c }: { c: SuccessContent }) {
   const last = c.flow.length - 1;
   return (
     <div className="panel relative p-6 sm:p-10">
@@ -38,7 +40,7 @@ function FlowPanel() {
           <span className="absolute left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-mint shadow-[0_0_12px_2px_rgb(103_227_174/0.5)] animate-travel" />
         </span>
         {c.flow.map((step, i) => (
-          <li key={step.title} className="relative flex gap-5 pb-8 last:pb-0">
+          <li key={i} className="relative flex gap-5 pb-8 last:pb-0">
             <span
               className={cn(
                 "tabular relative z-10 grid size-10 shrink-0 place-items-center rounded-full border text-sm font-medium",
@@ -63,7 +65,9 @@ function FlowPanel() {
   );
 }
 
-export function SuccessSection() {
+export async function SuccessSection() {
+  const c = await getSuccessContent();
+
   return (
     <section id="analisi" aria-labelledby="success-title" className="border-y border-line bg-[#070b0a] py-24 sm:py-32">
       <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
@@ -73,20 +77,20 @@ export function SuccessSection() {
           </h2>
           <p className="font-wide mt-6 text-xl font-medium leading-snug text-paper/90 text-pretty">{c.subtitle}</p>
           <div className="mt-6 space-y-4 text-mist">
-            {c.body.map((p) => (
-              <p key={p} className="max-w-[58ch]">
+            {c.body.map((p, i) => (
+              <p key={i} className="max-w-[58ch]">
                 {p}
               </p>
             ))}
           </div>
           <div className="mt-10">
-            <MetricSlot />
+            <MetricSlot c={c} />
           </div>
           <p className="mt-4 text-xs text-mist/80">{c.disclaimer}</p>
         </Reveal>
 
         <Reveal delay={120}>
-          <FlowPanel />
+          <FlowPanel c={c} />
         </Reveal>
       </Container>
     </section>

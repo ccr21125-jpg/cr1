@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { RatesProvider } from "@/components/dashboard/RatesProvider";
 import { PanelGlow } from "@/components/dashboard/PanelGlow";
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { adminPage, dashboardNav } from "@/data/content";
+import { adminPage, dashboardNav, siteContentPage } from "@/data/content";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getAccount } from "@/services/account/accountService";
 
@@ -26,7 +26,11 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   // La voce compare solo agli amministratori; il permesso vero però sta nel
   // database, quindi nasconderla non è la misura di sicurezza, solo l'ordine.
   const items = account.isAdmin
-    ? [...dashboardNav, { label: adminPage.navLabel, href: "/dashboard/admin", icon: "lock" as const }]
+    ? [
+        ...dashboardNav,
+        { label: adminPage.navLabel, href: "/dashboard/admin", icon: "lock" as const },
+        { label: siteContentPage.navLabel, href: "/dashboard/admin/contenuti", icon: "document" as const },
+      ]
     : dashboardNav;
 
   return (

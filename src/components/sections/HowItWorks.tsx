@@ -1,14 +1,16 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { howItWorksContent, steps } from "@/data/content";
+import { getHowItWorksContent, getSteps } from "@/services/content/siteContentService";
 
 /**
  * Timeline: verticale su mobile (linea a sinistra), orizzontale da lg
  * (linea sopra i marker). Le linee sono pseudo-elementi di ogni step,
  * omessi sull'ultimo.
  */
-export function HowItWorks() {
+export async function HowItWorks() {
+  const [howItWorksContent, steps] = await Promise.all([getHowItWorksContent(), getSteps()]);
+
   return (
     <section id="come-funziona" aria-labelledby="how-title" className="border-t border-line py-24 sm:py-32">
       <Container>
