@@ -1,18 +1,18 @@
 import type { ReactNode } from "react";
+import { BitcoinPanel } from "@/components/dashboard/BitcoinPanel";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TradingViewCredit } from "@/components/ui/TradingViewWidget";
 import { getMarketContent } from "@/services/content/siteContentService";
-import { BitcoinCard } from "./BitcoinCard";
 import { CryptoMarketGrid } from "./CryptoMarketGrid";
 
 /**
- * Le quotazioni arrivano dai widget TradingView lato client: qui non c'è
- * nessuna chiamata di rete dal server, quindi nessuno stato di errore o di
- * caricamento da gestire.
+ * Stessa scheda dell'area riservata (grafico disegnato in casa, non un
+ * iframe): il visitatore vede lo stesso Bitcoin coerente con il resto del
+ * sito prima ancora di registrarsi.
  */
 export function FeaturedMarket() {
-  return <BitcoinCard />;
+  return <BitcoinPanel currency="EUR" />;
 }
 
 export async function MarketBoard() {

@@ -37,7 +37,7 @@ Requisiti: Node.js 20.9 o superiore.
 ```mermaid
 flowchart TD
     REG["data/assets.ts<br/>assetRegistry: symbol, name, tint, tvSymbol"]
-    REG --> FM["FeaturedMarket → BitcoinCard"]
+    REG --> FM["FeaturedMarket → BitcoinPanel"]
     REG --> MB["MarketBoard → CryptoMarketGrid"]
     FM --> TVW["TradingViewWidget (Client Component)"]
     MB --> TVW
@@ -187,7 +187,7 @@ flowchart LR
   l'utente Supabase in `AccountUser`. Username e saldo non sono mai riscritti a
   mano in una pagina: quando arriverà un backend di pagamenti cambia solo quel file.
 - **Valuta unica: EUR**, dal conto ai widget della homepage (`siteConfig.currency`,
-  coppie `BINANCE:*EUR`, widget CoinMarketCap su base EUR).
+  coppie `BINANCE:*EUR`, grafico Bitcoin in EUR).
 - **Controvalore in bitcoin** sotto al saldo: il cambio EUR/BTC si chiede dal
   browser del visitatore, non dal server, perché CoinGecko rifiuta spesso gli IP
   dei datacenter. Se il cambio non arriva la conversione non viene mostrata:
@@ -255,7 +255,7 @@ Il resto sono elenchi di dati, tenuti separati:
 | --- | --- |
 | **Tutti i testi, menu e footer** | **`src/data/content.ts`** |
 | Asset in homepage, simboli TradingView (`tvSymbol`) | `src/data/assets.ts` |
-| Config dei widget di quotazione | `BitcoinCard.tsx`, `CryptoMarketGrid.tsx` |
+| Config dei widget di quotazione | `src/components/dashboard/BitcoinPanel.tsx`, `CryptoMarketGrid.tsx` |
 | Componente di embed TradingView | `src/components/ui/TradingViewWidget.tsx` |
 | Blockchain (il diagramma si adatta da solo) | `src/data/chains.ts` |
 | Statistiche (`isDemo`, `source`) | `src/data/stats.mock.ts` |
