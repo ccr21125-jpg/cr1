@@ -382,9 +382,6 @@ export const dashboardHome = {
   // Scorciatoie
   deposit: "Deposita",
   depositDescription: "Aggiungi fondi al conto",
-  depositModalTitle: "Deposito non ancora disponibile",
-  depositModalBody:
-    "La funzione di deposito sarà attiva quando il sistema di pagamenti sarà collegato. Nessun pagamento viene elaborato in questa versione.",
   exchange: "Compra/Vendi",
   exchangeDescription: "Scambia criptovalute",
   exchangeBadges: ["24/7", "Commissioni basse"],
@@ -437,6 +434,33 @@ export const dashboardHome = {
   btcUnavailable: "Conversione in bitcoin non disponibile al momento.",
   btcRate: "1 BTC = {rate} · valore indicativo",
   currencyLabel: "Valuta",
+};
+
+/** Modale "Deposita": scelta del metodo, poi i dati impostati dall'amministratore. */
+export const depositModal = {
+  chooseTitle: "Come vuoi depositare?",
+  chooseSubtitle: "Scegli un metodo per vedere i dati da usare per il versamento.",
+  optionCrypto: "Crypto (BTC)",
+  optionCryptoDescription: "Deposita bitcoin su un indirizzo dedicato a te",
+  optionWire: "Bonifico bancario",
+  optionWireDescription: "Deposita in euro sul conto indicato",
+  back: "Indietro",
+  copy: "Copia",
+  copied: "Copiato",
+  btcTitle: "Deposito in bitcoin",
+  btcAddressLabel: "Indirizzo BTC",
+  btcEmpty:
+    "Il tuo consulente non ha ancora configurato un indirizzo bitcoin per te. Contattalo per riceverlo.",
+  wireTitle: "Bonifico bancario",
+  bankNameLabel: "Banca",
+  bankIbanLabel: "IBAN",
+  bankBicLabel: "BIC / SWIFT",
+  bankHolderLabel: "Intestatario",
+  bankReferenceLabel: "Causale",
+  bankReferenceHint: "Indica questo riferimento nel bonifico: aiuta il tuo consulente a riconoscere il versamento.",
+  bankEmpty:
+    "Il tuo consulente non ha ancora configurato le coordinate bancarie per te. Contattalo per riceverle.",
+  note: "Dopo il versamento, il saldo verrà accreditato manualmente dal tuo consulente non appena lo riceve.",
 };
 
 export const walletPage = {
@@ -644,6 +668,20 @@ export const adminPage = {
   totalBalance: "Somma dei saldi",
   totalUsers: "Utenti registrati",
   pendingWithdrawals: "Prelievi da evadere",
+
+  depositDetailsTitle: "Dati di deposito mostrati all'utente",
+  btcAddressLabel: "Indirizzo BTC",
+  btcAddressPlaceholder: "bc1q...",
+  bankNameLabel: "Banca",
+  bankNamePlaceholder: "Nome della banca",
+  bankIbanLabel: "IBAN",
+  bankIbanPlaceholder: "IT60X0542811101000000123456",
+  bankBicLabel: "BIC / SWIFT",
+  bankBicPlaceholder: "BPMOIT22XXX",
+  bankHolderLabel: "Intestatario",
+  bankHolderPlaceholder: "Nome Cognome",
+  saveDepositDetails: "Salva dati di deposito",
+  depositDetailsDone: "Dati di deposito aggiornati.",
 
   withdrawalsTitle: "Richieste di prelievo",
   withdrawalsPendingTitle: "Da evadere",

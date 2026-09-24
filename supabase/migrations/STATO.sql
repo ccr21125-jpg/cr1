@@ -32,6 +32,12 @@ from (
     (5, '0005_harden_functions.sql',
         exists (select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
                  where n.nspname = 'public' and p.proname = 'check_btc_rate'
-                   and array_to_string(p.proconfig, ',') like '%search_path%'))
+                   and array_to_string(p.proconfig, ',') like '%search_path%')),
+
+    -- La 0006 aggiunge indirizzo BTC e coordinate bancarie per utente.
+    (6, '0006_deposit_details.sql',
+        exists (select 1 from information_schema.columns
+                 where table_schema = 'public' and table_name = 'profiles'
+                   and column_name = 'btc_address'))
 ) as m(ordine, file, applicata)
 order by m.ordine;

@@ -25,6 +25,8 @@ export interface AccountUser {
   currency: "EUR";
   /** null finché il wallet non è configurato: non inventare mai un indirizzo. */
   walletAddress: string | null;
+  /** null finché l'amministratore non ha impostato le coordinate bancarie. */
+  bankDetails: BankDetails | null;
   /** Somma indicativa dichiarata in fase di registrazione. */
   declaredAmount: number | null;
   /** Vero solo se il flag è impostato nel database, mai deducibile dal client. */
@@ -40,6 +42,14 @@ export interface AccountUser {
    * diverse da eseguire, e prima venivano dette entrambe come la prima.
    */
   profileError: string | null;
+}
+
+/** Coordinate bancarie per il deposito, impostate dall'amministratore. */
+export interface BankDetails {
+  name: string | null;
+  iban: string | null;
+  bic: string | null;
+  holder: string | null;
 }
 
 /** Riga del registro movimenti. */
@@ -64,6 +74,8 @@ export interface AdminUserRow {
   currency: string;
   isAdmin: boolean;
   createdAt: string;
+  walletAddress: string | null;
+  bankDetails: BankDetails | null;
 }
 
 /** Stato di una richiesta di prelievo, come definito nell'enum SQL. */

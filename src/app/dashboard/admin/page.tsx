@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AdjustBalanceForm } from "@/components/dashboard/AdjustBalanceForm";
 import { Card, EmptyState } from "@/components/dashboard/Card";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { DepositDetailsForm } from "@/components/dashboard/DepositDetailsForm";
 import { RoleToggle } from "@/components/dashboard/RoleToggle";
 import { Money, Btc } from "@/components/dashboard/Money";
 import { WithdrawalRecord, WithdrawalReview } from "@/components/dashboard/WithdrawalReview";
@@ -124,6 +125,14 @@ export default async function AdminPage() {
 
                 <div className="mt-5 border-t border-line pt-5">
                   <AdjustBalanceForm userId={user.id} />
+                </div>
+
+                <div className="mt-4 border-t border-line pt-4">
+                  <DepositDetailsForm
+                    userId={user.id}
+                    walletAddress={user.walletAddress}
+                    bankDetails={user.bankDetails}
+                  />
                 </div>
 
                 {/* Non ci si può revocare da soli: lo impedisce anche il database. */}

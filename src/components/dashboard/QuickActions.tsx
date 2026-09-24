@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Icon, type IconName } from "@/components/icons/Icon";
 import { dashboardHome } from "@/data/content";
+import type { AccountUser } from "@/services/account/types";
+import { DepositModal } from "./DepositModal";
 import { Modal } from "./Modal";
 
 interface Action {
@@ -11,8 +13,9 @@ interface Action {
   title: string;
   description: string;
   badges?: string[];
-  modalTitle: string;
-  modalBody: string;
+  /** Assenti per "deposita": quell'azione apre DepositModal, non questa. */
+  modalTitle?: string;
+  modalBody?: string;
 }
 
 const actions: Action[] = [
@@ -21,8 +24,6 @@ const actions: Action[] = [
     icon: "wallet",
     title: dashboardHome.deposit,
     description: dashboardHome.depositDescription,
-    modalTitle: dashboardHome.depositModalTitle,
-    modalBody: dashboardHome.depositModalBody,
   },
   {
     id: "scambia",
@@ -44,11 +45,14 @@ const actions: Action[] = [
 ];
 
 /**
- * Scorciatoie non ancora collegate: ognuna apre una modale che lo dichiara,
- * invece di far credere che l'operazione sia avvenuta.
+ * "Scambia" ed "Esporta chiave" non sono ancora collegate: aprono una modale
+ * che lo dichiara, invece di far credere che l'operazione sia avvenuta.
+ * "Deposita" invece è collegata per davvero: apre DepositModal, che mostra i
+ * dati che l'amministratore ha impostato per questo utente.
  */
-export function QuickActions() {
+export function QuickActions({ account }: { account: AccountUser }) {
   const [open, setOpen] = useState<Action | null>(null);
+  const depositing = open?.id === "deposita";
 
   return (
     <>
@@ -86,7 +90,13 @@ export function QuickActions() {
         ))}
       </div>
 
-      <Modal open={open !== null} onClose={() => setOpen(null)} title={open?.modalTitle ?? ""}>
+      <DepositModal account={account} open={depositing} onClose={() => setOpen(null)} />
+
+      <Modal
+        open={open !== null && !depositing}
+        onClose={() => setOpen(null)}
+        title={open?.modalTitle ?? ""}
+      >
         <p>{open?.modalBody}</p>
       </Modal>
     </>

@@ -16,13 +16,19 @@ export async function listUsers(): Promise<AdminUserRow[]> {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, email, first_name, last_name, phone, city, balance_sats, currency, is_admin, created_at")
+    .select(
+      "id, email, first_name, last_name, phone, city, balance_sats, currency, is_admin, created_at, btc_address, bank_name, bank_iban, bank_bic, bank_account_holder",
+    )
     .order("created_at", { ascending: false });
 
   if (error || !data) return [];
 
   return data.map((row) => {
     const fullName = [row.first_name, row.last_name].filter(Boolean).join(" ");
+    const name = row.bank_name ?? null;
+    const iban = row.bank_iban ?? null;
+    const bic = row.bank_bic ?? null;
+    const holder = row.bank_account_holder ?? null;
     return {
       id: row.id,
       email: row.email ?? "",
@@ -33,8 +39,33 @@ export async function listUsers(): Promise<AdminUserRow[]> {
       currency: row.currency ?? "EUR",
       isAdmin: row.is_admin === true,
       createdAt: row.created_at ?? "",
+      walletAddress: row.btc_address ?? null,
+      bankDetails: name || iban || bic || holder ? { name, iban, bic, holder } : null,
     };
   });
+}
+
+/**
+ * Imposta indirizzo BTC e/o coordinate bancarie di un utente, per il pannello
+ * di deposito che quell'utente vede. Il lavoro vero è nella funzione SQL, che
+ * verifica da sé che chi chiama sia amministratore.
+ */
+export async function setDepositDetails(
+  targetUserId: string,
+  details: { btcAddress: string; bankName: string; bankIban: string; bankBic: string; bankHolder: string },
+): Promise<{ ok: true } | { ok: false; code: string }> {
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc("admin_set_deposit_details", {
+    target_user: targetUserId,
+    btc_address: details.btcAddress,
+    bank_name: details.bankName,
+    bank_iban: details.bankIban,
+    bank_bic: details.bankBic,
+    bank_account_holder: details.bankHolder,
+  });
+
+  if (error) return { ok: false, code: logRpcError("admin_set_deposit_details", error) };
+  return { ok: true };
 }
 
 /** Ultimi movimenti registrati, di tutti gli utenti. */

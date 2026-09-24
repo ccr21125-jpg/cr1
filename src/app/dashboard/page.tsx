@@ -33,7 +33,7 @@ export default async function DashboardPage() {
         walletCount={account.walletAddress ? 1 : 0}
       />
 
-      <QuickActions />
+      <QuickActions account={account} />
 
       <BitcoinPanel currency={account.currency} />
 

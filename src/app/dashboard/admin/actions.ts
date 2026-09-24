@@ -6,7 +6,7 @@ import { isPlausibleRate, parseAmountToCents } from "@/lib/money";
 import { sanitizeText } from "@/lib/sanitize";
 import { isSchemaMissing } from "@/lib/supabase/rpcError";
 import { getAccount } from "@/services/account/accountService";
-import { adjustBalance, decideWithdrawal, setAdmin } from "@/services/admin/adminService";
+import { adjustBalance, decideWithdrawal, setAdmin, setDepositDetails } from "@/services/admin/adminService";
 
 export interface AdminFormState {
   error?: string;
@@ -85,6 +85,36 @@ export async function setAdminAction(_prev: AdminFormState, formData: FormData):
 
   revalidatePath("/dashboard/admin");
   return { success: adminPage.roleDone };
+}
+
+/**
+ * Imposta indirizzo BTC e coordinate bancarie che l'utente vedrà nel proprio
+ * pannello di deposito. Prima barriera qui; quella che conta è dentro
+ * `admin_set_deposit_details`, che rifiuta la chiamata se chi la fa non è
+ * amministratore.
+ */
+export async function setDepositDetailsAction(
+  _prev: AdminFormState,
+  formData: FormData,
+): Promise<AdminFormState> {
+  const account = await getAccount();
+  if (!account?.isAdmin) return { error: adminPage.errors.notAuthorised };
+
+  const targetUserId = String(formData.get("user_id") ?? "");
+  if (!targetUserId) return { error: adminPage.errors.userNotFound };
+
+  const result = await setDepositDetails(targetUserId, {
+    btcAddress: sanitizeText(formData.get("btc_address"), 128),
+    bankName: sanitizeText(formData.get("bank_name"), 200),
+    bankIban: sanitizeText(formData.get("bank_iban"), 50),
+    bankBic: sanitizeText(formData.get("bank_bic"), 20),
+    bankHolder: sanitizeText(formData.get("bank_holder"), 200),
+  });
+  if (!result.ok) return { error: messageForCode(result.code) };
+
+  revalidatePath("/dashboard/admin");
+  revalidatePath("/dashboard");
+  return { success: adminPage.depositDetailsDone };
 }
 
 /**
