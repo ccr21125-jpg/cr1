@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { BitcoinPanel } from "@/components/dashboard/BitcoinPanel";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { TradingViewCredit } from "@/components/ui/TradingViewWidget";
+import { marketContent as staticMarketContent } from "@/data/content";
 import { getMarketContent } from "@/services/content/siteContentService";
 import { CryptoMarketGrid } from "./CryptoMarketGrid";
 
@@ -24,7 +24,16 @@ export async function MarketBoard() {
         id="asset-title"
         title={marketContent.title}
         description={marketContent.description}
-        aside={<TradingViewCredit />}
+        aside={
+          <a
+            href="https://www.coingecko.com/"
+            target="_blank"
+            rel="noopener nofollow"
+            className="text-xs text-mist transition-colors hover:text-paper"
+          >
+            {staticMarketContent.credit}
+          </a>
+        }
       />
       <div className="mt-12">
         <CryptoMarketGrid />

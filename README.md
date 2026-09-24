@@ -4,9 +4,9 @@ Homepage in italiano per una piattaforma crypto/fintech.
 Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 4.
 
 > ⚠️ **Versione dimostrativa.** Statistiche e recensioni sono dati di esempio, etichettati
-> come tali nell'interfaccia. I **prezzi crypto sono reali e in tempo reale** (widget
-> TradingView), vedi [Prezzi in tempo reale](#prezzi-crypto-in-tempo-reale). Il resto va
-> sostituito con dati verificati prima della pubblicazione.
+> come tali nell'interfaccia. I **prezzi crypto sono reali e in tempo reale** (dati
+> CoinGecko, disegnati in SVG), vedi [Prezzi in tempo reale](#prezzi-crypto-in-tempo-reale).
+> Il resto va sostituito con dati verificati prima della pubblicazione.
 
 ## Avvio
 
@@ -36,12 +36,13 @@ Requisiti: Node.js 20.9 o superiore.
 
 ```mermaid
 flowchart TD
-    REG["data/assets.ts<br/>assetRegistry: symbol, name, tint, tvSymbol"]
+    REG["data/assets.ts<br/>assetRegistry: providerId, symbol, name, tint"]
     REG --> FM["FeaturedMarket → BitcoinPanel"]
     REG --> MB["MarketBoard → CryptoMarketGrid"]
-    FM --> TVW["TradingViewWidget (Client Component)"]
-    MB --> TVW
-    TVW -->|"script embed-widget-*.js"| TV[("TradingView<br/>quotazioni in tempo reale")]
+    FM --> CG1["fetch CoinGecko (Client Component)"]
+    MB --> CG2["fetch CoinGecko (Client Component)"]
+    CG1 --> API[("api.coingecko.com<br/>prezzo, grafico 24h, dominanza")]
+    CG2 --> API
     PAGE["app/page.tsx (statica)"] --> FM
     PAGE --> MB
 
@@ -61,40 +62,42 @@ conto, che arrivano da Supabase.
 
 ### Prezzi crypto in tempo reale
 
-Le card (scheda BTC in evidenza e griglia asset) mostrano quotazioni **reali** servite
-dai widget TradingView, che girano nel browser del visitatore:
+Le card (scheda BTC in evidenza e griglia asset) mostrano quotazioni **reali**,
+disegnate in casa invece che con un iframe di terzi: i dati arrivano da CoinGecko,
+il grafico è un SVG che usa i colori del sito (`src/lib/chart.ts`).
 
-1. **Un solo componente di embed.** `TradingViewWidget`
-   (`src/components/ui/TradingViewWidget.tsx`) riceve il nome dell'embed e la config
-   nel formato ufficiale TradingView. Lo `<script>` va creato via DOM e non reso da
-   React (React non esegue gli script resi come figli, e l'embed legge la config dal
-   contenuto testuale del proprio tag); il container resta vuoto lato React, così il
-   cleanup lo svuota senza toccare nodi gestiti da React — necessario con
-   `reactStrictMode`, che in sviluppo monta gli effetti due volte.
-2. **Un simbolo per asset, in un posto solo.** `tvSymbol` in `src/data/assets.ts`
-   (`BINANCE:BTCUSDT`, `BINANCE:ETHUSDT`, …). Cambiare exchange o coppia significa
-   modificare quella riga e basta.
-3. **Due widget.** Scheda in evidenza → `symbol-overview` (prezzo, variazione, grafico
-   ad area). Ogni card della griglia → `mini-symbol-overview` (prezzo, variazione, mini
-   grafico). La cornice del sito (pannello, monogrammi, tipografia, header di sezione)
-   resta quella di prima: TradingView riempie solo la parte dati.
+1. **Le richieste partono dal browser del visitatore**, non dal server: CoinGecko
+   rifiuta spesso gli IP dei datacenter, Vercel compreso, quindi nessuna chiamata
+   di rete lato server può fallire in produzione.
+2. **Scheda in evidenza** (`BitcoinPanel`, condivisa con l'area riservata): una
+   chiamata a `/coins/bitcoin/market_chart` per il grafico a 24 ore e una a
+   `/global` per la dominanza; prezzo, variazione, capitalizzazione, massimo,
+   minimo e volume arrivano invece da `RatesProvider`, che li chiede una volta
+   sola per pagina.
+3. **Griglia asset** (`CryptoMarketGrid`): una sola chiamata a `/coins/markets`
+   con tutti gli id di `assetRegistry` restituisce prezzo e variazione di ogni
+   asset in un colpo solo; il grafico di ogni scheda resta invece una chiamata a
+   `/coins/{id}/market_chart` a testa, perché quell'endpoint non è cumulativo.
+4. **Scarto di sicurezza**: se l'ultimo punto del grafico si allontana troppo dal
+   prezzo mostrato (fonti o valute diverse), il grafico non viene disegnato
+   invece di mostrare un asse sbagliato.
+5. **Cache di sessione** (`src/lib/sessionCache.ts`): ogni richiesta riparte da
+   `sessionStorage` prima che dalla rete — l'API pubblica di CoinGecko concede
+   una decina di chiamate al minuto per indirizzo.
 
 ```mermaid
 sequenceDiagram
     participant N as Next (build)
     participant B as Browser
-    participant TV as TradingView
+    participant CG as CoinGecko
 
     N->>B: HTML statico (cornice, monogrammi, header)
     Note over N: nessuna chiamata di rete lato server
-    B->>B: useEffect monta <script> embed-widget-*.js<br/>con la config dell'asset
-    B->>TV: lo script richiede il widget
-    TV-->>B: iframe con prezzo, variazione e grafico
-    Note over B,TV: da qui in poi TradingView aggiorna<br/>le quotazioni da solo, in streaming
+    B->>B: useEffect chiede prezzo e grafico
+    B->>CG: fetch api.coingecko.com
+    CG-->>B: prezzo, variazione, serie a 24h
+    B->>B: disegna l'SVG con i colori del sito
 ```
-
-Cambiare widget o config = sostituire l'oggetto `config` passato a `TradingViewWidget`
-con quello generato dal [widget builder di TradingView](https://www.tradingview.com/widget/).
 
 ### Rendering della pagina
 
@@ -103,9 +106,9 @@ sequenceDiagram
     participant N as Next (build)
     participant B as Browser
     N->>B: HTML statico (cornice delle card, nessun prezzo dal server)
-    B->>B: Idratazione delle sole parti client:<br/>Navbar, Reveal, AnimatedCounter, TradingViewWidget
+    B->>B: Idratazione delle sole parti client:<br/>Navbar, Reveal, AnimatedCounter, BitcoinPanel, CryptoMarketGrid
     B->>B: IntersectionObserver → animazione contatori<br/>(textContent via rAF, nessun re-render)
-    B->>B: I widget TradingView caricano le quotazioni<br/>(vedi "Prezzi crypto in tempo reale")
+    B->>B: Le schede prezzo chiedono a CoinGecko<br/>(vedi "Prezzi crypto in tempo reale")
 ```
 
 ## Accesso e registrazione
@@ -254,9 +257,9 @@ Il resto sono elenchi di dati, tenuti separati:
 | Cosa | File |
 | --- | --- |
 | **Tutti i testi, menu e footer** | **`src/data/content.ts`** |
-| Asset in homepage, simboli TradingView (`tvSymbol`) | `src/data/assets.ts` |
-| Config dei widget di quotazione | `src/components/dashboard/BitcoinPanel.tsx`, `CryptoMarketGrid.tsx` |
-| Componente di embed TradingView | `src/components/ui/TradingViewWidget.tsx` |
+| Asset in homepage (`providerId` = id CoinGecko) | `src/data/assets.ts` |
+| Grafico e dati delle quotazioni | `src/components/dashboard/BitcoinPanel.tsx`, `src/components/sections/CryptoMarketGrid.tsx` |
+| Geometria SVG condivisa dai grafici prezzo | `src/lib/chart.ts` |
 | Blockchain (il diagramma si adatta da solo) | `src/data/chains.ts` |
 | Statistiche (`isDemo`, `source`) | `src/data/stats.mock.ts` |
 | Recensioni | `src/data/reviews.mock.ts` → `src/services/content/reviewsService.ts` |
@@ -265,8 +268,7 @@ Il resto sono elenchi di dati, tenuti separati:
 
 1. **"Tasso di successo comprovato."** (`content.ts`): "comprovato" afferma una prova. La metrica si mostra solo se `verifiedMetric` include una fonte.
 2. **"Regolamento rapido"** (`features.ts`): sostituisce "istantaneo" finché non è tecnicamente verificato.
-3. **Statistiche e recensioni**: tutte marcate come dimostrative, tranne "Blockchain supportate" (derivata dalla configurazione) e i **prezzi crypto** (reali, via TradingView).
-   I termini d'uso dei widget richiedono l'attribuzione visibile a TradingView: è il link `TradingViewCredit`, da non rimuovere.
+3. **Statistiche e recensioni**: tutte marcate come dimostrative, tranne "Blockchain supportate" (derivata dalla configurazione) e i **prezzi crypto** (reali, via CoinGecko, con link di attribuzione visibile in ogni scheda).
 4. **Indicizzazione**: con `demoMode: true` il sito è `noindex` e `robots.txt` blocca tutto.
 5. **Autenticazione**: email e password via Supabase, sessione in cookie httpOnly. Provvisoria: manca il recupero password. Vedi [Accesso e registrazione](#accesso-e-registrazione). Prima di aprire le registrazioni al pubblico servono privacy policy e termini reali (oggi sono segnaposto).
 6. **Testi legali e disclaimer**: segnaposto da far redigere al consulente legale (quadro MiCA / autorità italiane).
@@ -275,8 +277,8 @@ Il resto sono elenchi di dati, tenuti separati:
 
 ## Scelte tecniche
 
-- **Prezzi in tempo reale**: widget TradingView lato client — nessuna chiave API, nessun rate limit, nessuna chiamata dal server che possa fallire. Vedi [Prezzi crypto in tempo reale](#prezzi-crypto-in-tempo-reale).
-- **Grafici**: i grafici delle quotazioni arrivano dai widget. Gli altri grafici del sito restano SVG puro renderizzato sul server, senza librerie di charting.
+- **Prezzi in tempo reale**: dati CoinGecko chiesti dal browser del visitatore, nessun iframe di terzi — ma soggetti al limite di richieste della loro API pubblica, mitigato dalla cache di sessione. Vedi [Prezzi crypto in tempo reale](#prezzi-crypto-in-tempo-reale).
+- **Grafici**: sempre SVG disegnato a mano (`src/lib/chart.ts`), server o client a seconda che i dati arrivino da Supabase o da CoinGecko — mai una libreria di charting o un iframe.
 - **Contatori**: il server rende il valore finale (SEO e no-JS); il client anima via `requestAnimationFrame` scrivendo `textContent`.
 - **Animazioni**: rispettano `prefers-reduced-motion`. I reveal nascondono il contenuto solo se JS è attivo (`@media (scripting: enabled)`).
 - **Font**: Mona Sans Variable auto-ospitato via npm, nessuna richiesta a Google Fonts.

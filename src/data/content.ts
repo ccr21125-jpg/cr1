@@ -73,6 +73,9 @@ export const heroContent = {
 export const marketContent = {
   title: "I principali asset crypto",
   description: "Prezzo e variazione nelle ultime 24 ore per gli asset più seguiti.",
+  credit: "Dati da CoinGecko",
+  chartLoading: "Caricamento del grafico…",
+  chartUnavailable: "Grafico non disponibile",
 };
 
 /* ===========================================================================
