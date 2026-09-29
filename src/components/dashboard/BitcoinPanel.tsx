@@ -6,6 +6,7 @@ import { FEATURED_ASSET } from "@/data/assets";
 import { dashboardHome } from "@/data/content";
 import { buildChartGeometry, CHART_VIEWBOX } from "@/lib/chart";
 import { cn } from "@/lib/cn";
+import { fetchCoinGecko } from "@/lib/coingecko";
 import { FRESH_MS, readCache, STALE_MS, writeCache } from "@/lib/sessionCache";
 import { formatAmount, formatCompact, formatPercent } from "@/lib/format";
 import { useRates } from "./RatesProvider";
@@ -23,7 +24,6 @@ type State =
   | { status: "ready"; series: Series | null; dominance: number | null }
   | { status: "failed" };
 
-const API = "https://api.coingecko.com/api/v3";
 /** Punti disegnati: il grafico a 24 ore ne restituisce ~288, uno ogni 5 minuti. */
 const MAX_POINTS = 72;
 /**
@@ -89,7 +89,7 @@ export function BitcoinPanel({ currency = "EUR" }: { currency?: string }) {
   useEffect(() => {
     const controller = new AbortController();
     const vs = currency.toLowerCase();
-    const get = (path: string) => fetch(`${API}${path}`, { signal: controller.signal });
+    const get = (path: string) => fetchCoinGecko(path, { signal: controller.signal });
 
     (async () => {
       // Come per i cambi: un ricaricamento riparte da quello che già sapeva.

@@ -7,12 +7,12 @@ import { assetRegistry, type AssetDefinition } from "@/data/assets";
 import { marketContent } from "@/data/content";
 import { buildChartGeometry, CHART_VIEWBOX } from "@/lib/chart";
 import { cn } from "@/lib/cn";
+import { fetchCoinGecko, sleep, staggerDelay } from "@/lib/coingecko";
 import { formatAmount, formatPercent } from "@/lib/format";
 import { FRESH_MS, readCache, STALE_MS, writeCache } from "@/lib/sessionCache";
 
-const API = "https://api.coingecko.com/api/v3";
 const IDS = assetRegistry.map((a) => a.providerId).join(",");
-const MARKET_URL = `${API}/coins/markets?vs_currency=eur&ids=${IDS}&price_change_percentage=24h`;
+const MARKET_PATH = `/coins/markets?vs_currency=eur&ids=${IDS}&price_change_percentage=24h`;
 /** Meno punti che nella scheda in evidenza: qui il grafico è alto un terzo. */
 const MAX_POINTS = 48;
 /** Stesso scarto di sicurezza di BitcoinPanel: v. quel file per il perché. */
@@ -72,7 +72,7 @@ export function CryptoMarketGrid() {
       }
 
       try {
-        const res = await fetch(MARKET_URL, { signal: controller.signal });
+        const res = await fetchCoinGecko(MARKET_PATH, { signal: controller.signal });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const body: unknown = await res.json();
 
@@ -109,12 +109,17 @@ export function CryptoMarketGrid() {
       <ul
         className="flex snap-x snap-mandatory gap-3 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-panel)] sm:border sm:border-line sm:bg-line lg:grid-cols-3"
       >
-        {assetRegistry.map((asset) => (
+        {assetRegistry.map((asset, index) => (
           <li
             key={asset.providerId}
             className="relative w-[78%] shrink-0 snap-start rounded-[var(--radius-card)] border border-line bg-panel p-5 transition-colors duration-200 hover:bg-panel-raised min-[480px]:w-[60%] sm:w-auto sm:rounded-none sm:border-0 sm:p-6"
           >
-            <AssetCard asset={asset} market={rows[asset.providerId] ?? null} marketLoading={state.status === "loading"} />
+            <AssetCard
+              asset={asset}
+              index={index}
+              market={rows[asset.providerId] ?? null}
+              marketLoading={state.status === "loading"}
+            />
           </li>
         ))}
       </ul>
@@ -130,10 +135,12 @@ type ChartState = { status: "loading" } | { status: "ready"; series: Series | nu
 
 function AssetCard({
   asset,
+  index,
   market,
   marketLoading,
 }: {
   asset: AssetDefinition;
+  index: number;
   market: MarketRow | null;
   marketLoading: boolean;
 }) {
@@ -154,7 +161,11 @@ function AssetCard({
       }
 
       try {
-        const res = await fetch(`${API}/coins/${asset.providerId}/market_chart?vs_currency=eur&days=1`, {
+        // Le 6 schede montano insieme: senza aspettare il proprio turno,
+        // spedirebbero 6 richieste nello stesso istante e CoinGecko ne
+        // rifiuterebbe qualcuna con 429.
+        await sleep(staggerDelay(index), controller.signal);
+        const res = await fetchCoinGecko(`/coins/${asset.providerId}/market_chart?vs_currency=eur&days=1`, {
           signal: controller.signal,
         });
         const body = res.ok ? ((await res.json()) as { prices?: unknown }) : null;
@@ -177,7 +188,7 @@ function AssetCard({
     })();
 
     return () => controller.abort();
-  }, [asset.providerId]);
+  }, [asset.providerId, index]);
 
   // Stesso controllo di scarto di BitcoinPanel: un grafico da una fonte che
   // non concorda col prezzo mostrato è peggio di nessun grafico.

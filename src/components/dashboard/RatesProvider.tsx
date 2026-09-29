@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { fetchCoinGecko } from "@/lib/coingecko";
 import { FRESH_MS, readCache, STALE_MS, writeCache } from "@/lib/sessionCache";
 
 export interface Rates {
@@ -35,8 +36,7 @@ type RateState =
 
 const RatesContext = createContext<RateState>({ status: "loading" });
 
-const API = "https://api.coingecko.com/api/v3";
-const RATE_URL = `${API}/simple/price?ids=bitcoin&vs_currencies=eur,gbp,usd`;
+const RATE_PATH = "/simple/price?ids=bitcoin&vs_currencies=eur,gbp,usd";
 /*
  * Un solo /coins/markets per l'intera pagina, con entrambe le variazioni.
  *
@@ -46,7 +46,7 @@ const RATE_URL = `${API}/simple/price?ids=bitcoin&vs_currencies=eur,gbp,usd`;
  * di chiamate al minuto per indirizzo: il doppione bastava, con un paio di
  * ricaricamenti, a farle rifiutare tutte.
  */
-const MARKET_URL = `${API}/coins/markets?vs_currency=eur&ids=bitcoin&price_change_percentage=24h,7d`;
+const MARKET_PATH = "/coins/markets?vs_currency=eur&ids=bitcoin&price_change_percentage=24h,7d";
 
 const CACHE_KEY = "btc-rates-v1";
 
@@ -103,9 +103,9 @@ export function RatesProvider({ children }: { children: ReactNode }) {
 
       try {
         const [res, marketRes] = await Promise.all([
-          fetch(RATE_URL, { signal: controller.signal }),
+          fetchCoinGecko(RATE_PATH, { signal: controller.signal }),
           // I dati di mercato sono un di più: senza, i cambi restano validi.
-          fetch(MARKET_URL, { signal: controller.signal }).catch(() => null),
+          fetchCoinGecko(MARKET_PATH, { signal: controller.signal }).catch(() => null),
         ]);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 

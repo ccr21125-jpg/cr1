@@ -84,6 +84,14 @@ il grafico è un SVG che usa i colori del sito (`src/lib/chart.ts`).
 5. **Cache di sessione** (`src/lib/sessionCache.ts`): ogni richiesta riparte da
    `sessionStorage` prima che dalla rete — l'API pubblica di CoinGecko concede
    una decina di chiamate al minuto per indirizzo.
+6. **Resilienza alle richieste simultanee** (`src/lib/coingecko.ts`): una prima
+   visita arriva a sparare un'undicina di richieste nello stesso istante
+   (`RatesProvider`, `BitcoinPanel`, la griglia e le sue 6 schede), e il limite
+   anonimo di CoinGecko è sensibile proprio ai picchi. `fetchCoinGecko()`
+   centralizza ogni chiamata, ritenta una volta su 429, e le schede della
+   griglia aspettano il proprio turno (`staggerDelay`) invece di partire tutte
+   insieme. Impostando `NEXT_PUBLIC_COINGECKO_API_KEY` (chiave "Demo",
+   gratuita) il limite sale parecchio — vedi `.env.example`.
 
 ```mermaid
 sequenceDiagram
