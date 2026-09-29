@@ -15,6 +15,7 @@ import {
   toolsContent,
 } from "@/data/content";
 import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "@/lib/supabase/config";
+import { pageSectionKey, parsePageBlocks, type PageBlock } from "@/data/pageContentSchema";
 
 /** Tag di cache di Next: la salvataggio dell'amministratore lo invalida per un aggiornamento immediato. */
 export const SITE_CONTENT_TAG = "site-content";
@@ -188,4 +189,16 @@ export async function getFinalCtaContent() {
 export async function getLegalDisclaimer(): Promise<string[]> {
   const flat = await getSiteContentFlat("legal");
   return legalDisclaimer.map((line, i) => pick(flat, `line_${i + 1}`, line));
+}
+
+/**
+ * Blocchi di una pagina del footer (Chi siamo, Contatti, …), o un array vuoto
+ * finché l'amministratore non ha ancora scritto nulla: la pagina pubblica lo
+ * distingue mostrando l'avviso "in preparazione" invece di una pagina vuota.
+ */
+export async function getPageBlocks(slug: string): Promise<PageBlock[]> {
+  const rows = await fetchSiteContentRows();
+  const row = rows.find((r) => r.section_key === pageSectionKey(slug));
+  const raw = row?.data && typeof row.data === "object" ? (row.data as Record<string, unknown>).blocks : undefined;
+  return parsePageBlocks(raw);
 }

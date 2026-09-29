@@ -749,6 +749,33 @@ export const siteContentPage = {
 };
 
 /* ===========================================================================
+ * 17. PAGINE DEL FOOTER (pannello amministrazione)
+ * =========================================================================== */
+
+export const pagesAdminContent = {
+  navLabel: "Pagine del sito",
+  title: "Pagine del sito",
+  description:
+    "Scrivi il contenuto delle pagine collegate dal footer (Chi siamo, Contatti, Carriere, Centro assistenza, FAQ, e i testi legali). Ogni pagina è una sequenza di blocchi di testo e immagini, nell'ordine in cui li metti qui. Finché una pagina resta senza blocchi, il sito mostra l'avviso \"in preparazione\".",
+  empty: "Nessun contenuto ancora: la pagina pubblica mostra l'avviso \"in preparazione\".",
+  addText: "+ Aggiungi testo",
+  addImage: "+ Aggiungi immagine",
+  textBlock: "Testo",
+  imageBlock: "Immagine",
+  imageUrlLabel: "URL immagine",
+  imageUrlPlaceholder: "https://…",
+  imageAltLabel: "Testo alternativo (per chi non vede l'immagine)",
+  imageAltPlaceholder: "Descrivi cosa mostra l'immagine",
+  textPlaceholder: "Scrivi qui il testo di questo blocco…",
+  moveUp: "Sposta su",
+  moveDown: "Sposta giù",
+  remove: "Rimuovi blocco",
+  save: "Salva pagina",
+  saving: "Salvataggio…",
+  saveDone: "Pagina aggiornata.",
+};
+
+/* ===========================================================================
  * TIPI E FUNZIONI DI SUPPORTO — non serve modificarli per cambiare i testi.
  * =========================================================================== */
 

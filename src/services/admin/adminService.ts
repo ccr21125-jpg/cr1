@@ -201,7 +201,7 @@ export async function decideWithdrawal(
  */
 export async function setSiteContent(
   sectionKey: string,
-  data: Record<string, string>,
+  data: Record<string, unknown>,
 ): Promise<{ ok: true } | { ok: false; code: string }> {
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc("admin_set_site_content", {
