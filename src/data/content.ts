@@ -274,7 +274,6 @@ export const finalCtaContent = {
 export const placeholderPages = {
   "chi-siamo": "Chi siamo",
   contatti: "Contatti",
-  faq: "FAQ",
 } as const;
 
 export const footerNav: NavGroup[] = [
