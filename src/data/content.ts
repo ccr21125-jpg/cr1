@@ -287,7 +287,7 @@ export const footerNav: NavGroup[] = [
     ],
   },
   { title: "Azienda", links: [page("chi-siamo"), page("contatti")] },
-  { title: "Supporto", links: [page("faq")] },
+  { title: "Supporto", links: [{ label: "FAQ", href: "/#faq" }] },
 ];
 
 /* ===========================================================================
