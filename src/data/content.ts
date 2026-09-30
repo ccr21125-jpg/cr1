@@ -229,13 +229,7 @@ export const finalCtaContent = {
 export const placeholderPages = {
   "chi-siamo": "Chi siamo",
   contatti: "Contatti",
-  carriere: "Carriere",
-  "centro-assistenza": "Centro assistenza",
   faq: "FAQ",
-  "privacy-policy": "Privacy Policy",
-  "cookie-policy": "Cookie Policy",
-  "termini-e-condizioni": "Termini e condizioni",
-  disclaimer: "Disclaimer",
 } as const;
 
 export const footerNav: NavGroup[] = [
@@ -243,17 +237,12 @@ export const footerNav: NavGroup[] = [
     title: "Piattaforma",
     links: [
       { label: "Mercati", href: "/#mercati" },
-      { label: "Trading", href: "/#trading" },
       { label: "Analisi", href: "/#analisi" },
       { label: "Multichain", href: "/#multichain" },
     ],
   },
-  { title: "Azienda", links: [page("chi-siamo"), page("contatti"), page("carriere")] },
-  { title: "Supporto", links: [page("centro-assistenza"), page("faq"), page("contatti")] },
-  {
-    title: "Legale",
-    links: [page("privacy-policy"), page("cookie-policy"), page("termini-e-condizioni"), page("disclaimer")],
-  },
+  { title: "Azienda", links: [page("chi-siamo"), page("contatti")] },
+  { title: "Supporto", links: [page("faq")] },
 ];
 
 /* ===========================================================================
