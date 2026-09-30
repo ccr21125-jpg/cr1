@@ -208,6 +208,51 @@ export const reviewsContent = {
 };
 
 /* ===========================================================================
+ * 10.5 DOMANDE FREQUENTI (homepage)
+ * Il numero di domande resta fisso: dall'admin si modifica il testo, non
+ * quante sono (stesso principio di `features` e `steps`).
+ * =========================================================================== */
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export const faqSectionContent = {
+  title: "Domande frequenti",
+  description: "Le risposte alle domande più comuni. Per tutto il resto, siamo qui.",
+  contactLabel: "Altre domande? Scrivici",
+  contactHref: "/contatti",
+};
+
+export const faqItems: FaqItem[] = [
+  {
+    q: "Cosa posso fare con questa piattaforma?",
+    a: "Puoi consultare i prezzi dei principali asset crypto in tempo reale, seguire l'andamento del mercato e gestire il tuo conto dall'area riservata.",
+  },
+  {
+    q: "Come apro un account?",
+    a: "Vai su \"Registrati\", inserisci email e password: in pochi minuti hai accesso alla tua area riservata.",
+  },
+  {
+    q: "Come funziona il deposito?",
+    a: "Dalla tua area riservata scegli tra bonifico bancario o bitcoin: i dati per il versamento sono quelli assegnati al tuo account.",
+  },
+  {
+    q: "Posso richiedere un prelievo in qualsiasi momento?",
+    a: "Sì. Ogni richiesta di prelievo viene verificata prima di essere evasa, e resti sempre informato sullo stato della richiesta.",
+  },
+  {
+    q: "I miei dati sono al sicuro?",
+    a: "L'accesso al conto richiede autenticazione, e ogni operazione resta tracciata in un registro consultabile dalla tua area riservata.",
+  },
+  {
+    q: "Chi posso contattare se ho altre domande?",
+    a: "Scrivici dalla pagina Contatti: ti risponderemo il prima possibile.",
+  },
+];
+
+/* ===========================================================================
  * 11. INVITO FINALE
  * =========================================================================== */
 

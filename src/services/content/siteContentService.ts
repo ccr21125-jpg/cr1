@@ -1,6 +1,8 @@
 import "server-only";
 import { cache } from "react";
 import {
+  faqItems,
+  faqSectionContent,
   features,
   finalCtaContent,
   heroContent,
@@ -175,6 +177,20 @@ export async function getReviewsContent() {
     title: pick(flat, "title", reviewsContent.title),
     demoNote: pick(flat, "demoNote", reviewsContent.demoNote),
     demoBadgeLabel: pick(flat, "demoBadgeLabel", reviewsContent.demoBadgeLabel),
+  };
+}
+
+export async function getFaqSection() {
+  const flat = await getSiteContentFlat("faq_section");
+  return {
+    title: pick(flat, "title", faqSectionContent.title),
+    description: pick(flat, "description", faqSectionContent.description),
+    contactLabel: pick(flat, "contactLabel", faqSectionContent.contactLabel),
+    contactHref: faqSectionContent.contactHref,
+    items: faqItems.map((item, i) => ({
+      q: pick(flat, `q_${i + 1}`, item.q),
+      a: pick(flat, `a_${i + 1}`, item.a),
+    })),
   };
 }
 

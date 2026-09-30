@@ -16,6 +16,8 @@
  * ============================================================================
  */
 import {
+  faqItems,
+  faqSectionContent,
   features,
   finalCtaContent,
   heroContent,
@@ -202,6 +204,29 @@ export const siteContentSections: SiteContentSection[] = [
       title: reviewsContent.title,
       demoNote: reviewsContent.demoNote,
       demoBadgeLabel: reviewsContent.demoBadgeLabel,
+    },
+  },
+  {
+    key: "faq_section",
+    label: "Domande frequenti (homepage)",
+    description: "Il numero di domande resta fisso: qui si modifica solo il testo di ciascuna.",
+    fields: [
+      { key: "title", label: "Titolo", kind: "text", maxLength: 100 },
+      { key: "description", label: "Descrizione", kind: "textarea", maxLength: 200 },
+      { key: "contactLabel", label: "Testo del link di contatto", kind: "text", maxLength: 100 },
+      ...faqItems.flatMap((_, i): SiteContentField[] => [
+        { key: `q_${i + 1}`, label: `Domanda ${i + 1}`, kind: "text", maxLength: 150 },
+        { key: `a_${i + 1}`, label: `Risposta ${i + 1}`, kind: "textarea", maxLength: 500 },
+      ]),
+    ],
+    defaults: {
+      title: faqSectionContent.title,
+      description: faqSectionContent.description,
+      contactLabel: faqSectionContent.contactLabel,
+      ...Object.fromEntries(faqItems.flatMap((item, i) => [
+        [`q_${i + 1}`, item.q],
+        [`a_${i + 1}`, item.a],
+      ])),
     },
   },
   {

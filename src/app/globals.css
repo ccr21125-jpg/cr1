@@ -201,6 +201,26 @@
   display: none;
 }
 
+/*
+ * Fisarmonica FAQ: altezza animata senza calcolarla via JS.
+ * Chiusa vale 0fr, aperta 1fr — un contenitore grid a una riga che passa da
+ * "senza spazio" a "tutto lo spazio del contenuto" con una sola transizione.
+ * Il figlio ha overflow: hidden perché una riga 0fr ha comunque altezza 0
+ * solo se il contenuto non trabocca fuori dal grid item.
+ */
+.faq-rows {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s var(--ease-ui);
+}
+.faq-rows[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.faq-rows > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
 /* ─────────────────── Area riservata: superfici reattive ─────────────────── */
 /*
  * Scritte come discendenti di .dash invece che come utility sui componenti:

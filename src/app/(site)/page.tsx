@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/Container";
+import { FAQSection } from "@/components/sections/FAQSection";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -36,6 +37,7 @@ export default function HomePage() {
       <HowItWorks />
       <Statistics />
       <Reviews />
+      <FAQSection />
       <FinalCTA />
     </>
   );
