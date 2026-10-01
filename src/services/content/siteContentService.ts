@@ -87,6 +87,12 @@ export async function getSiteName(): Promise<string> {
   return pick(flat, "name", siteConfig.name);
 }
 
+/** Testo breve sotto al logo nel footer. */
+export async function getFooterDescription(): Promise<string> {
+  const flat = await getSiteContentFlat("brand");
+  return pick(flat, "footerDescription", siteConfig.description);
+}
+
 export async function getHeroContent() {
   const flat = await getSiteContentFlat("hero");
   return {

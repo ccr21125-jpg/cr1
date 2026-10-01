@@ -60,11 +60,14 @@ export interface SiteContentSection {
 export const siteContentSections: SiteContentSection[] = [
   {
     key: "brand",
-    label: "Nome del sito",
+    label: "Nome del sito e testo sotto al logo",
     description:
-      "Compare accanto al logo (barra in alto, footer, area riservata e pagina 404). Il logo non cambia. Compare anche nella riga di copyright del footer, a meno che in \"Testo legale (footer)\" non sia indicata una ragione sociale diversa.",
-    fields: [{ key: "name", label: "Nome del sito", kind: "text", maxLength: 60 }],
-    defaults: { name: siteConfig.name },
+      "Il nome compare accanto al logo (barra in alto, footer, area riservata e pagina 404) e nella riga di copyright del footer, a meno che in \"Testo legale (footer)\" non sia indicata una ragione sociale diversa. Il testo breve compare sotto al logo nel footer. Il logo non cambia.",
+    fields: [
+      { key: "name", label: "Nome del sito", kind: "text", maxLength: 60 },
+      { key: "footerDescription", label: "Testo sotto al logo (footer)", kind: "textarea", maxLength: 250 },
+    ],
+    defaults: { name: siteConfig.name, footerDescription: siteConfig.description },
   },
   {
     key: "hero",
