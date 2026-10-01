@@ -307,7 +307,7 @@ export const footerNav: NavGroup[] = [
       { label: "Multichain", href: "/#multichain" },
     ],
   },
-  { title: "Azienda", links: [page("chi-siamo"), page("contatti")] },
+  { title: "Azienda", links: [{ label: "Chi siamo", href: "/#chi-siamo" }, page("contatti")] },
   { title: "Supporto", links: [{ label: "FAQ", href: "/#faq" }] },
 ];
 
