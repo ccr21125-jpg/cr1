@@ -105,8 +105,8 @@ export function DepositModal({
         </div>
       ) : channel === "btc" ? (
         <div className="space-y-4">
-          {account.walletAddress ? (
-            <CopyField label={depositModal.btcAddressLabel} value={account.walletAddress} />
+          {account.depositBtcAddress ? (
+            <CopyField label={depositModal.btcAddressLabel} value={account.depositBtcAddress} />
           ) : (
             <p className="text-sm text-mist">{depositModal.btcEmpty}</p>
           )}

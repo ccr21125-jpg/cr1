@@ -118,6 +118,12 @@ const paths = {
       <path d="M6 15V6.5A2 2 0 0 1 8 4.5h8.5" />
     </>
   ),
+  mail: (
+    <>
+      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+      <path d="m4.5 7.5 7.5 5.5 7.5-5.5" />
+    </>
+  ),
   checkCircle: (
     <>
       <circle cx="12" cy="12" r="8.5" />
