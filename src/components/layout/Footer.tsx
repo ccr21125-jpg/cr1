@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { footerNav, siteConfig } from "@/data/content";
-import { getFooterBottom, getLegalDisclaimer } from "@/services/content/siteContentService";
+import { getFooterBottom, getFooterDescription, getLegalDisclaimer } from "@/services/content/siteContentService";
 import { Logo } from "./Logo";
 
 export async function Footer({ siteName }: { siteName: string }) {
-  const [legalDisclaimer, footerBottom] = await Promise.all([getLegalDisclaimer(), getFooterBottom()]);
+  const [legalDisclaimer, footerBottom, footerDescription] = await Promise.all([
+    getLegalDisclaimer(),
+    getFooterBottom(),
+    getFooterDescription(),
+  ]);
 
   return (
     <footer className="border-t border-line bg-ink">
@@ -13,7 +17,7 @@ export async function Footer({ siteName }: { siteName: string }) {
         <div className="grid gap-12 lg:grid-cols-[1.1fr_2fr]">
           <div className="max-w-sm">
             <Logo name={siteName} />
-            <p className="mt-5 text-sm text-mist">{siteConfig.description}</p>
+            <p className="mt-5 text-sm text-mist">{footerDescription}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
