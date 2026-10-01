@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { footerNav, siteConfig } from "@/data/content";
-import { getLegalDisclaimer } from "@/services/content/siteContentService";
+import { getFooterBottom, getLegalDisclaimer } from "@/services/content/siteContentService";
 import { Logo } from "./Logo";
 
 export async function Footer() {
-  const legalDisclaimer = await getLegalDisclaimer();
+  const [legalDisclaimer, footerBottom] = await Promise.all([getLegalDisclaimer(), getFooterBottom()]);
 
   return (
     <footer className="border-t border-line bg-ink">
@@ -47,9 +47,9 @@ export async function Footer() {
 
         <div className="mt-10 flex flex-col gap-3 border-t border-line pt-8 text-xs text-mist sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {siteConfig.copyrightYear} {siteConfig.legalName}. Tutti i diritti riservati.
+            © {siteConfig.copyrightYear} {footerBottom.legalName}. Tutti i diritti riservati.
           </p>
-          <p>[Sede legale, P. IVA e dati societari da inserire]</p>
+          <p>{footerBottom.companyInfo}</p>
         </div>
       </Container>
     </footer>

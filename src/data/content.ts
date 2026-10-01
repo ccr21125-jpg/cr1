@@ -306,6 +306,12 @@ export const legalDisclaimer = [
   "[Informazioni societarie, eventuali autorizzazioni e riferimenti normativi da inserire dopo la verifica legale.]",
 ];
 
+/** Riga di copyright e dati societari in fondo al footer, sotto l'avvertenza sui rischi. */
+export const footerBottomContent = {
+  legalName: siteConfig.legalName,
+  companyInfo: "[Sede legale, P. IVA e dati societari da inserire]",
+};
+
 /* ===========================================================================
  * 14. PAGINE DI ACCESSO E REGISTRAZIONE
  * =========================================================================== */

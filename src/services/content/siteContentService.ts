@@ -7,6 +7,7 @@ import {
   finalCtaContent,
   heroContent,
   howItWorksContent,
+  footerBottomContent,
   legalDisclaimer,
   marketContent,
   multichainContent,
@@ -207,6 +208,15 @@ export async function getFinalCtaContent() {
 export async function getLegalDisclaimer(): Promise<string[]> {
   const flat = await getSiteContentFlat("legal");
   return legalDisclaimer.map((line, i) => pick(flat, `line_${i + 1}`, line));
+}
+
+/** Riga di copyright e dati societari in fondo al footer: stessa sezione admin del testo legale. */
+export async function getFooterBottom() {
+  const flat = await getSiteContentFlat("legal");
+  return {
+    legalName: pick(flat, "legalName", footerBottomContent.legalName),
+    companyInfo: pick(flat, "companyInfo", footerBottomContent.companyInfo),
+  };
 }
 
 export async function getSignupForm() {
