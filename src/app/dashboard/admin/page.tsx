@@ -4,6 +4,7 @@ import { AdjustBalanceForm } from "@/components/dashboard/AdjustBalanceForm";
 import { Card, EmptyState } from "@/components/dashboard/Card";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { DepositDetailsForm } from "@/components/dashboard/DepositDetailsForm";
+import { WalletAddressForm } from "@/components/dashboard/WalletAddressForm";
 import { RoleToggle } from "@/components/dashboard/RoleToggle";
 import { Money, Btc } from "@/components/dashboard/Money";
 import { WithdrawalRecord, WithdrawalReview } from "@/components/dashboard/WithdrawalReview";
@@ -128,9 +129,13 @@ export default async function AdminPage() {
                 </div>
 
                 <div className="mt-4 border-t border-line pt-4">
+                  <WalletAddressForm userId={user.id} walletAddress={user.walletAddress} />
+                </div>
+
+                <div className="mt-4 border-t border-line pt-4">
                   <DepositDetailsForm
                     userId={user.id}
-                    walletAddress={user.walletAddress}
+                    btcAddress={user.depositBtcAddress}
                     bankDetails={user.bankDetails}
                   />
                 </div>

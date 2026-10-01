@@ -41,6 +41,12 @@ from (
                    and column_name = 'btc_address')),
 
     -- La 0007 aggiunge i testi della homepage modificabili dall'amministratore.
-    (7, '0007_site_content.sql', to_regclass('public.site_content') is not null)
+    (7, '0007_site_content.sql', to_regclass('public.site_content') is not null),
+
+    -- La 0008 aggiunge l'indirizzo del portafoglio di ogni cliente.
+    (8, '0008_wallet_address.sql',
+        exists (select 1 from information_schema.columns
+                 where table_schema = 'public' and table_name = 'profiles'
+                   and column_name = 'wallet_address'))
 ) as m(ordine, file, applicata)
 order by m.ordine;

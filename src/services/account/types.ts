@@ -23,8 +23,14 @@ export interface AccountUser {
   balanceSats: number;
   /** Valuta in cui il controvalore viene mostrato. */
   currency: "EUR";
-  /** null finché il wallet non è configurato: non inventare mai un indirizzo. */
+  /**
+   * Indirizzo del portafoglio creato per il cliente, impostato
+   * dall'amministratore. null finché non lo fa: non inventare mai un indirizzo.
+   * NON è l'indirizzo di deposito (`depositBtcAddress`).
+   */
   walletAddress: string | null;
+  /** Indirizzo bitcoin dove il cliente versa denaro (modale "Deposita"). */
+  depositBtcAddress: string | null;
   /** null finché l'amministratore non ha impostato le coordinate bancarie. */
   bankDetails: BankDetails | null;
   /** Somma indicativa dichiarata in fase di registrazione. */
@@ -74,7 +80,10 @@ export interface AdminUserRow {
   currency: string;
   isAdmin: boolean;
   createdAt: string;
+  /** Portafoglio del cliente (pagina "Portafogli"). */
   walletAddress: string | null;
+  /** Indirizzo bitcoin di deposito. */
+  depositBtcAddress: string | null;
   bankDetails: BankDetails | null;
 }
 

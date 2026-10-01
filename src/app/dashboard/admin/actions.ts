@@ -6,7 +6,7 @@ import { isPlausibleRate, parseAmountToCents } from "@/lib/money";
 import { sanitizeText } from "@/lib/sanitize";
 import { isSchemaMissing } from "@/lib/supabase/rpcError";
 import { getAccount } from "@/services/account/accountService";
-import { adjustBalance, decideWithdrawal, setAdmin, setDepositDetails } from "@/services/admin/adminService";
+import { adjustBalance, decideWithdrawal, setAdmin, setDepositDetails, setWalletAddress } from "@/services/admin/adminService";
 
 export interface AdminFormState {
   error?: string;
@@ -115,6 +115,30 @@ export async function setDepositDetailsAction(
   revalidatePath("/dashboard/admin");
   revalidatePath("/dashboard");
   return { success: adminPage.depositDetailsDone };
+}
+
+/**
+ * Imposta l'indirizzo del portafoglio che il cliente vede nella pagina
+ * "Portafogli". È un dato a parte dai dati di deposito. Prima barriera qui;
+ * quella che conta è dentro `admin_set_wallet_address`.
+ */
+export async function setWalletAddressAction(
+  _prev: AdminFormState,
+  formData: FormData,
+): Promise<AdminFormState> {
+  const account = await getAccount();
+  if (!account?.isAdmin) return { error: adminPage.errors.notAuthorised };
+
+  const targetUserId = String(formData.get("user_id") ?? "");
+  if (!targetUserId) return { error: adminPage.errors.userNotFound };
+
+  const result = await setWalletAddress(targetUserId, sanitizeText(formData.get("wallet_address"), 128));
+  if (!result.ok) return { error: messageForCode(result.code) };
+
+  revalidatePath("/dashboard/admin");
+  revalidatePath("/dashboard/portafoglio");
+  revalidatePath("/dashboard");
+  return { success: adminPage.walletAddressDone };
 }
 
 /**

@@ -23,6 +23,12 @@ export async function listUsers(): Promise<AdminUserRow[]> {
 
   if (error || !data) return [];
 
+  // Colonna della migrazione 0008, letta a parte: se manca, l'elenco resta com'era.
+  const { data: walletRows } = await supabase.from("profiles").select("id, wallet_address");
+  const walletById = new Map<string, string | null>(
+    (walletRows ?? []).map((r) => [r.id as string, (r.wallet_address as string | null) ?? null]),
+  );
+
   return data.map((row) => {
     const fullName = [row.first_name, row.last_name].filter(Boolean).join(" ");
     const name = row.bank_name ?? null;
@@ -39,7 +45,8 @@ export async function listUsers(): Promise<AdminUserRow[]> {
       currency: row.currency ?? "EUR",
       isAdmin: row.is_admin === true,
       createdAt: row.created_at ?? "",
-      walletAddress: row.btc_address ?? null,
+      walletAddress: walletById.get(row.id) ?? null,
+      depositBtcAddress: row.btc_address ?? null,
       bankDetails: name || iban || bic || holder ? { name, iban, bic, holder } : null,
     };
   });
@@ -65,6 +72,24 @@ export async function setDepositDetails(
   });
 
   if (error) return { ok: false, code: logRpcError("admin_set_deposit_details", error) };
+  return { ok: true };
+}
+
+/**
+ * Imposta l'indirizzo del portafoglio di un cliente. Il lavoro vero è nella
+ * funzione SQL, che verifica da sé che chi chiama sia amministratore.
+ */
+export async function setWalletAddress(
+  targetUserId: string,
+  address: string,
+): Promise<{ ok: true } | { ok: false; code: string }> {
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc("admin_set_wallet_address", {
+    target_user: targetUserId,
+    new_wallet_address: address,
+  });
+
+  if (error) return { ok: false, code: logRpcError("admin_set_wallet_address", error) };
   return { ok: true };
 }
 

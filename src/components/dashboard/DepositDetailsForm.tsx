@@ -15,11 +15,11 @@ import type { BankDetails } from "@/services/account/types";
  */
 export function DepositDetailsForm({
   userId,
-  walletAddress,
+  btcAddress,
   bankDetails,
 }: {
   userId: string;
-  walletAddress: string | null;
+  btcAddress: string | null;
   bankDetails: BankDetails | null;
 }) {
   const [state, formAction, pending] = useActionState(setDepositDetailsAction, {});
@@ -33,7 +33,7 @@ export function DepositDetailsForm({
         name="btc_address"
         id={`btc-address-${userId}`}
         label={adminPage.btcAddressLabel}
-        defaultValue={walletAddress ?? ""}
+        defaultValue={btcAddress ?? ""}
         placeholder={adminPage.btcAddressPlaceholder}
         maxLength={128}
         autoComplete="off"

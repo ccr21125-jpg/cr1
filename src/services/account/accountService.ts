@@ -81,6 +81,7 @@ export const getAccount = cache(async (): Promise<AccountUser | null> => {
       balanceSats: 0,
       currency: "EUR",
       walletAddress: null,
+      depositBtcAddress: null,
       bankDetails: null,
       declaredAmount: typeof meta.amount === "number" ? meta.amount : null,
       isAdmin: false,
@@ -88,6 +89,18 @@ export const getAccount = cache(async (): Promise<AccountUser | null> => {
       profileError,
     };
   }
+
+  /*
+   * L'indirizzo del portafoglio sta in una colonna della migrazione 0008, letta
+   * a parte e senza far fallire nulla: se quella migrazione non è ancora stata
+   * eseguita, l'area riservata funziona lo stesso e il portafoglio risulta
+   * semplicemente "non ancora assegnato".
+   */
+  const { data: walletRow } = await supabase
+    .from("profiles")
+    .select("wallet_address")
+    .eq("id", user.id)
+    .maybeSingle();
 
   const firstName = readString(profile.first_name) ?? metaFirstName;
   const lastName = readString(profile.last_name) ?? readString(meta.last_name);
@@ -103,7 +116,8 @@ export const getAccount = cache(async (): Promise<AccountUser | null> => {
     city: readString(profile.city),
     balanceSats: readSats(profile.balance_sats),
     currency: "EUR",
-    walletAddress: readString(profile.btc_address),
+    walletAddress: readString(walletRow?.wallet_address),
+    depositBtcAddress: readString(profile.btc_address),
     bankDetails: readBankDetails(profile),
     declaredAmount:
       typeof profile.declared_amount_cents === "number" ? centsToUnits(profile.declared_amount_cents) : null,

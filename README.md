@@ -234,6 +234,13 @@ update public.profiles set is_admin = true where email = 'tua@email.it';
 Finché la migrazione non è stata eseguita il sito continua a funzionare: la
 dashboard mostra un avviso al posto del saldo, invece di un numero inventato.
 
+**Indirizzo del portafoglio di ogni cliente.** La pagina «Portafogli» mostra
+l'indirizzo che l'amministratore imposta per ciascun cliente da
+`/dashboard/admin` («Portafoglio del cliente»). Richiede
+`supabase/migrations/0008_wallet_address.sql` (colonna `wallet_address`): è un
+dato a parte dall'indirizzo di deposito della 0006. Senza la migrazione il sito
+funziona lo stesso e la pagina mostra «Indirizzo non ancora assegnato».
+
 - **Il saldo non sta in `user_metadata`.** Quel campo è modificabile dall'utente
   stesso via API: chiunque potrebbe assegnarsi il denaro che vuole. Vive nella
   tabella `profiles`, su cui l'app non ha alcun permesso di scrittura diretta.

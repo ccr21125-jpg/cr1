@@ -539,17 +539,22 @@ export const depositModal = {
 };
 
 export const walletPage = {
-  title: "Il tuo portafoglio",
-  usernameLabel: "Username",
-  balanceLabel: "Saldo",
-  manageTitle: "Gestione wallet",
-  addressLabel: "Indirizzo wallet",
-  addressEmpty: "Wallet non ancora configurato",
-  exportKey: "Esporta chiave",
-  exportNote: "Funzionalità wallet in fase di configurazione.",
-  exportModalTitle: "Esportazione chiave non disponibile",
-  exportModalBody:
-    "L'esportazione della chiave sarà possibile solo quando il sistema wallet sarà collegato, con le dovute verifiche di sicurezza. Nessuna chiave viene generata o conservata in questa versione.",
+  title: "I Miei Portafogli",
+  description: "Gestisci i tuoi portafogli di criptovalute e saldi",
+  cardTitle: "Portafoglio Bitcoin",
+  cardDescription: "Il tuo portafoglio di criptovalute principale",
+  statusActive: "Attivo",
+  statusPending: "In configurazione",
+  addressLabel: "Indirizzo portafoglio",
+  addressEmpty: "Indirizzo non ancora assegnato: comparirà qui appena il tuo portafoglio sarà pronto.",
+  copy: "Copia l'indirizzo",
+  copied: "Copiato",
+  rateTitle: "Cambio attuale di 1 BTC",
+  accountTitle: "Informazioni Account",
+  accountDescription: "I dettagli del tuo account personale",
+  fullNameLabel: "Nome completo",
+  emailLabel: "Indirizzo email",
+  accountBalanceLabel: "Saldo account",
 };
 
 export const analyticsPage = {
@@ -743,6 +748,14 @@ export const adminPage = {
   totalBalance: "Somma dei saldi",
   totalUsers: "Utenti registrati",
   pendingWithdrawals: "Prelievi da evadere",
+
+  walletAddressTitle: "Portafoglio del cliente",
+  walletAddressHint:
+    "L'indirizzo che il cliente vede nella pagina «Portafogli» e nella scheda wallet della dashboard. È un dato a parte dai dati di deposito qui sotto. Lascialo vuoto finché il portafoglio non è pronto.",
+  walletAddressLabel: "Indirizzo portafoglio",
+  walletAddressPlaceholder: "bc1q...",
+  saveWalletAddress: "Salva indirizzo portafoglio",
+  walletAddressDone: "Indirizzo portafoglio aggiornato.",
 
   depositDetailsTitle: "Dati di deposito mostrati all'utente",
   btcAddressLabel: "Indirizzo BTC",
