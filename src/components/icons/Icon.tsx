@@ -118,6 +118,12 @@ const paths = {
       <path d="M6 15V6.5A2 2 0 0 1 8 4.5h8.5" />
     </>
   ),
+  checkCircle: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="m8.5 12.2 2.4 2.4 4.6-5" />
+    </>
+  ),
   lock: (
     <>
       <rect x="4.5" y="10" width="15" height="10.5" rx="2" />
