@@ -4,7 +4,7 @@ import { footerNav, siteConfig } from "@/data/content";
 import { getFooterBottom, getLegalDisclaimer } from "@/services/content/siteContentService";
 import { Logo } from "./Logo";
 
-export async function Footer() {
+export async function Footer({ siteName }: { siteName: string }) {
   const [legalDisclaimer, footerBottom] = await Promise.all([getLegalDisclaimer(), getFooterBottom()]);
 
   return (
@@ -12,7 +12,7 @@ export async function Footer() {
       <Container className="py-16 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_2fr]">
           <div className="max-w-sm">
-            <Logo />
+            <Logo name={siteName} />
             <p className="mt-5 text-sm text-mist">{siteConfig.description}</p>
           </div>
 

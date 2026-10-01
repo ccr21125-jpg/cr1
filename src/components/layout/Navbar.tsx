@@ -10,7 +10,7 @@ import { useScrolled } from "@/hooks/useScrolled";
 import { cn } from "@/lib/cn";
 import { Logo } from "./Logo";
 
-export function Navbar() {
+export function Navbar({ siteName }: { siteName: string }) {
   const scrolled = useScrolled();
   const [open, setOpen] = useState(false);
   const menuId = useId();
@@ -44,7 +44,7 @@ export function Navbar() {
       )}
     >
       <Container className="flex h-[4.25rem] items-center justify-between gap-6">
-        <Logo onClick={close} />
+        <Logo name={siteName} onClick={close} />
 
         <nav aria-label="Navigazione principale" className="hidden lg:block">
           <ul className="flex items-center gap-1">
