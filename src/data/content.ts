@@ -25,7 +25,6 @@ import type { IconName } from "@/components/icons/Icon";
 
 export const siteConfig = {
   name: "Nome Azienda",
-  legalName: "[Nome Azienda]",
   description:
     "Una piattaforma digitale pensata per offrire strumenti avanzati, analisi e accesso ai mercati crypto in un unico ecosistema.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
@@ -298,7 +297,6 @@ export const legalDisclaimer = [
 
 /** Riga di copyright e dati societari in fondo al footer, sotto l'avvertenza sui rischi. */
 export const footerBottomContent = {
-  legalName: siteConfig.legalName,
   companyInfo: "[Sede legale, P. IVA e dati societari da inserire]",
 };
 

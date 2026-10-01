@@ -207,11 +207,14 @@ export async function getLegalDisclaimer(): Promise<string[]> {
   return legalDisclaimer.map((line, i) => pick(flat, `line_${i + 1}`, line));
 }
 
-/** Riga di copyright e dati societari in fondo al footer: stessa sezione admin del testo legale. */
+/**
+ * Riga di copyright e dati societari in fondo al footer: stessa sezione admin del testo legale.
+ * Finché la ragione sociale non è compilata, la riga di copyright usa il nome del sito.
+ */
 export async function getFooterBottom() {
-  const flat = await getSiteContentFlat("legal");
+  const [flat, siteName] = await Promise.all([getSiteContentFlat("legal"), getSiteName()]);
   return {
-    legalName: pick(flat, "legalName", footerBottomContent.legalName),
+    legalName: pick(flat, "legalName", siteName),
     companyInfo: pick(flat, "companyInfo", footerBottomContent.companyInfo),
   };
 }
