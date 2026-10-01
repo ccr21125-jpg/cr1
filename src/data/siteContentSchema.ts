@@ -62,7 +62,7 @@ export const siteContentSections: SiteContentSection[] = [
     key: "brand",
     label: "Nome del sito",
     description:
-      "Compare accanto al logo (barra in alto, footer, area riservata e pagina 404). Il logo non cambia. La ragione sociale del copyright si modifica a parte, in \"Testo legale (footer)\".",
+      "Compare accanto al logo (barra in alto, footer, area riservata e pagina 404). Il logo non cambia. Compare anche nella riga di copyright del footer, a meno che in \"Testo legale (footer)\" non sia indicata una ragione sociale diversa.",
     fields: [{ key: "name", label: "Nome del sito", kind: "text", maxLength: 60 }],
     defaults: { name: siteConfig.name },
   },
@@ -267,7 +267,13 @@ export const siteContentSections: SiteContentSection[] = [
         maxLength: 600,
         sensitive: true,
       })),
-      { key: "legalName", label: "Ragione sociale (riga di copyright)", kind: "text", maxLength: 150, sensitive: true },
+      {
+        key: "legalName",
+        label: "Ragione sociale (riga di copyright) — lascia vuoto per usare il nome del sito",
+        kind: "text",
+        maxLength: 150,
+        sensitive: true,
+      },
       {
         key: "companyInfo",
         label: "Sede legale, P.IVA e dati societari",
@@ -278,7 +284,7 @@ export const siteContentSections: SiteContentSection[] = [
     ],
     defaults: {
       ...Object.fromEntries(legalDisclaimer.map((line, i) => [`line_${i + 1}`, line])),
-      legalName: footerBottomContent.legalName,
+      legalName: "",
       companyInfo: footerBottomContent.companyInfo,
     },
   },
