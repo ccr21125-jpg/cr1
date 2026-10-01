@@ -29,7 +29,9 @@ export async function Statistics() {
               <dd className="order-1 font-display whitespace-nowrap text-[clamp(2.25rem,4vw,2.75rem)] leading-none text-mint xl:text-[2.5rem]">
                 <AnimatedCounter value={s.value} decimals={s.decimals} prefix={s.prefix} suffix={s.suffix} />
               </dd>
-              <dd className="order-3 mt-1 text-xs text-mist">{s.isDemo ? "Dato dimostrativo" : `Fonte: ${s.source}`}</dd>
+              {s.isDemo || s.source ? (
+                <dd className="order-3 mt-1 text-xs text-mist">{s.isDemo ? "Dato dimostrativo" : `Fonte: ${s.source}`}</dd>
+              ) : null}
             </div>
           ))}
         </dl>

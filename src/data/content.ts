@@ -193,7 +193,8 @@ export const steps: Step[] = [
 
 /* ===========================================================================
  * 9. STATISTICHE
- * I numeri stanno in src/data/stats.mock.ts
+ * I numeri di partenza stanno in src/data/stats.mock.ts; l'amministratore
+ * li sovrascrive da /dashboard/admin/contenuti (statsService).
  * =========================================================================== */
 
 export const statsContent = {

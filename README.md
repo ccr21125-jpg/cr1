@@ -268,7 +268,7 @@ Il resto sono elenchi di dati, tenuti separati:
 | Grafico e dati delle quotazioni | `src/components/dashboard/BitcoinPanel.tsx`, `src/components/sections/CryptoMarketGrid.tsx` |
 | Geometria SVG condivisa dai grafici prezzo | `src/lib/chart.ts` |
 | Blockchain (il diagramma si adatta da solo) | `src/data/chains.ts` |
-| Statistiche (`isDemo`, `source`) | `src/data/stats.mock.ts` |
+| Statistiche (`isDemo`, `source`) | valori di partenza in `src/data/stats.mock.ts`, modificabili da `/dashboard/admin/contenuti` |
 
 ## Punti da verificare prima dell'audit
 

@@ -35,12 +35,14 @@ import {
   successContent,
   toolsContent,
 } from "./content";
+import { mockStats } from "./stats.mock";
 
 export interface SiteContentField {
   /** Chiave nell'oggetto JSON salvato per questa sezione. */
   key: string;
   label: string;
-  kind: "text" | "textarea";
+  /** "checkbox" si salva come "true" / "false". */
+  kind: "text" | "textarea" | "checkbox";
   maxLength: number;
   /** Testo con implicazioni legali/di conformità: il modulo mostra un avviso. */
   sensitive?: boolean;
@@ -191,16 +193,31 @@ export const siteContentSections: SiteContentSection[] = [
   {
     key: "stats",
     label: "Statistiche",
-    description: "I numeri restano quelli configurati a parte: qui si modificano solo titolo e note.",
+    description:
+      "Titolo, numeri, unità ed etichette delle cinque statistiche. Il numero si scrive senza separatore delle migliaia e con la virgola per i decimali (es. 25000 oppure 1,2). Togli la spunta da «Dato dimostrativo» solo per cifre vere e verificate: allora sotto al numero compare la fonte, e l'etichetta gialla in alto sparisce quando nessuna cifra è più dimostrativa.",
     fields: [
       { key: "title", label: "Titolo", kind: "text", maxLength: 100 },
       { key: "description", label: "Descrizione", kind: "textarea", maxLength: 200 },
       { key: "demoBadgeLabel", label: "Etichetta dati dimostrativi", kind: "text", maxLength: 80 },
+      ...mockStats.flatMap((s): SiteContentField[] => [
+        { key: `${s.id}_value`, label: `${s.label} — numero`, kind: "text", maxLength: 14 },
+        { key: `${s.id}_suffix`, label: `${s.label} — unità dopo il numero (es. +, %, Mld $)`, kind: "text", maxLength: 12 },
+        { key: `${s.id}_label`, label: `${s.label} — etichetta`, kind: "text", maxLength: 60 },
+        { key: `${s.id}_demo`, label: `${s.label} — dato dimostrativo`, kind: "checkbox", maxLength: 5 },
+        { key: `${s.id}_source`, label: `${s.label} — fonte (mostrata se non dimostrativo)`, kind: "text", maxLength: 100 },
+      ]),
     ],
     defaults: {
       title: statsContent.title,
       description: statsContent.description,
       demoBadgeLabel: statsContent.demoBadgeLabel,
+      ...Object.fromEntries(mockStats.flatMap((s) => [
+        [`${s.id}_value`, String(s.value).replace(".", ",")],
+        [`${s.id}_suffix`, (s.suffix ?? "").replace(/\u00a0/g, " ").trim()],
+        [`${s.id}_label`, s.label],
+        [`${s.id}_demo`, String(s.isDemo)],
+        [`${s.id}_source`, s.source ?? ""],
+      ])),
     },
   },
   {
