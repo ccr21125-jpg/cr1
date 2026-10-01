@@ -1,15 +1,12 @@
 import { ImageResponse } from "next/og";
 import { siteConfig } from "@/data/content";
-import { getSiteName } from "@/services/content/siteContentService";
 
-export const alt = "Piattaforma per i mercati crypto";
+export const alt = `${siteConfig.name} — Piattaforma per i mercati crypto`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /** Immagine Open Graph generata a build time (segnaposto con i colori del brand). */
-export default async function OpengraphImage() {
-  const name = await getSiteName();
-
+export default function OpengraphImage() {
   return new ImageResponse(
     (
       <div
@@ -26,7 +23,7 @@ export default async function OpengraphImage() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 32 }}>
           <div style={{ width: 44, height: 44, borderRadius: 12, background: "#0d1512", border: "2px solid #274036", display: "flex" }} />
-          {name}
+          {siteConfig.name}
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 84, fontWeight: 700, letterSpacing: -2, lineHeight: 1 }}>Il futuro delle crypto è qui.</div>

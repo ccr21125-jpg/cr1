@@ -61,7 +61,7 @@ export const siteContentSections: SiteContentSection[] = [
     key: "brand",
     label: "Nome del sito",
     description:
-      "Compare accanto al logo (barra in alto, footer, area riservata), nel titolo delle schede del browser e nell'anteprima condivisa sui social. La ragione sociale del copyright si modifica a parte, in \"Testo legale (footer)\".",
+      "Compare accanto al logo (barra in alto, footer, area riservata e pagina 404). Il logo non cambia. La ragione sociale del copyright si modifica a parte, in \"Testo legale (footer)\".",
     fields: [{ key: "name", label: "Nome del sito", kind: "text", maxLength: 60 }],
     defaults: { name: siteConfig.name },
   },
