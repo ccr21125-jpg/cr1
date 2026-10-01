@@ -23,11 +23,29 @@ import type { IconName } from "@/components/icons/Icon";
  * 1. DATI GENERALI DEL SITO
  * =========================================================================== */
 
+/**
+ * Indirizzo pubblico del sito, ricavato da NEXT_PUBLIC_SITE_URL.
+ * Tollerante di proposito: un valore senza "https://" ("miodominio.it"), con
+ * la barra finale o con spazi viene sistemato, e uno vuoto o illeggibile torna
+ * a localhost. Un `new URL()` su un valore sbagliato farebbe fallire l'intera
+ * build (metadataBase nel layout), cioè nessun deploy in produzione.
+ */
+function resolveSiteUrl(raw: string | undefined): string {
+  const fallback = "http://localhost:3000";
+  const value = raw?.trim();
+  if (!value) return fallback;
+  try {
+    return new URL(/^https?:\/\//i.test(value) ? value : `https://${value}`).origin;
+  } catch {
+    return fallback;
+  }
+}
+
 export const siteConfig = {
   name: "Nome Azienda",
   description:
     "Una piattaforma digitale pensata per offrire strumenti avanzati, analisi e accesso ai mercati crypto in un unico ecosistema.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   locale: "it-IT",
   ogLocale: "it_IT",
   copyrightYear: 2026,
