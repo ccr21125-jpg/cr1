@@ -291,7 +291,7 @@ export const footerNav: NavGroup[] = [
 /** ⚠️ Testo segnaposto: deve essere redatto e validato dal consulente legale. */
 export const legalDisclaimer = [
   "Le cripto-attività sono strumenti altamente volatili e non adatti a tutti. Il loro valore può variare in modo significativo e anche azzerarsi: è possibile perdere l'intero capitale impiegato.",
-  "I contenuti di questo sito hanno finalità esclusivamente informative e non costituiscono consulenza finanziaria, legale o fiscale, né offerta o sollecitazione all'investimento. I dati di mercato, le statistiche e le recensioni mostrati sono dimostrativi.",
+  "I contenuti di questo sito hanno finalità esclusivamente informative e non costituiscono consulenza finanziaria, legale o fiscale, né offerta o sollecitazione all'investimento. I dati di mercato e le statistiche mostrati sono dimostrativi.",
   "[Informazioni societarie, eventuali autorizzazioni e riferimenti normativi da inserire dopo la verifica legale.]",
 ];
 
