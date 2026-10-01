@@ -28,7 +28,6 @@ import {
   marketContent,
   multichainContent,
   registerContent,
-  reviewsContent,
   siteConfig,
   signupFieldLabels,
   statsContent,
@@ -202,21 +201,6 @@ export const siteContentSections: SiteContentSection[] = [
       title: statsContent.title,
       description: statsContent.description,
       demoBadgeLabel: statsContent.demoBadgeLabel,
-    },
-  },
-  {
-    key: "reviews",
-    label: "Recensioni",
-    description: "L'elenco delle recensioni resta quello configurato a parte: qui si modifica solo l'intestazione.",
-    fields: [
-      { key: "title", label: "Titolo", kind: "text", maxLength: 100 },
-      { key: "demoNote", label: "Nota recensioni dimostrative", kind: "textarea", maxLength: 200 },
-      { key: "demoBadgeLabel", label: "Etichetta dati dimostrativi", kind: "text", maxLength: 80 },
-    ],
-    defaults: {
-      title: reviewsContent.title,
-      demoNote: reviewsContent.demoNote,
-      demoBadgeLabel: reviewsContent.demoBadgeLabel,
     },
   },
   {

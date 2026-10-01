@@ -5,7 +5,7 @@ import { getFaqSection } from "@/services/content/siteContentService";
 import { FaqAccordion } from "./FaqAccordion";
 
 /**
- * Ultima obiezione prima dell'invito finale: sta apposta dopo le recensioni e
+ * Ultima obiezione prima dell'invito finale: sta apposta dopo le statistiche e
  * prima della CTA, non in cima alla pagina — risponde ai dubbi di chi ha già
  * visto il resto ed è a un passo dalla registrazione.
  */

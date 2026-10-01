@@ -3,7 +3,7 @@
 Homepage in italiano per una piattaforma crypto/fintech.
 Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 4.
 
-> ⚠️ **Versione dimostrativa.** Statistiche e recensioni sono dati di esempio, etichettati
+> ⚠️ **Versione dimostrativa.** Le statistiche sono dati di esempio, etichettati
 > come tali nell'interfaccia. I **prezzi crypto sono reali e in tempo reale** (dati
 > CoinGecko, disegnati in SVG), vedi [Prezzi in tempo reale](#prezzi-crypto-in-tempo-reale).
 > Il resto va sostituito con dati verificati prima della pubblicazione.
@@ -49,7 +49,6 @@ flowchart TD
     subgraph Server["Solo server — import 'server-only'"]
         ACC["accountService → AccountUser"]
         ADM["adminService → saldi e registro"]
-        REV["reviewsService"]
         STA["statsService"]
     end
     SB[("Supabase<br/>auth · profiles · ledger_entries")] --> ACC
@@ -270,13 +269,12 @@ Il resto sono elenchi di dati, tenuti separati:
 | Geometria SVG condivisa dai grafici prezzo | `src/lib/chart.ts` |
 | Blockchain (il diagramma si adatta da solo) | `src/data/chains.ts` |
 | Statistiche (`isDemo`, `source`) | `src/data/stats.mock.ts` |
-| Recensioni | `src/data/reviews.mock.ts` → `src/services/content/reviewsService.ts` |
 
 ## Punti da verificare prima dell'audit
 
 1. **"Tasso di successo comprovato."** (`content.ts`): "comprovato" afferma una prova. La metrica mostrata oggi (`successContent.metricValue`, modificabile da `/dashboard/admin/contenuti`) è dimostrativa e senza fonte, senza badge "dato dimostrativo" — su richiesta esplicita, non dimenticare prima del lancio. `verifiedMetric` resta pronto per quando ci sarà un dato vero con fonte da citare: a quel punto prende il posto della cifra dimostrativa.
 2. **"Regolamento rapido"** (`features.ts`): sostituisce "istantaneo" finché non è tecnicamente verificato.
-3. **Statistiche e recensioni**: tutte marcate come dimostrative, tranne "Blockchain supportate" (derivata dalla configurazione) e i **prezzi crypto** (reali, via CoinGecko, con link di attribuzione visibile in ogni scheda).
+3. **Statistiche**: marcate come dimostrative, tranne "Blockchain supportate" (derivata dalla configurazione) e i **prezzi crypto** (reali, via CoinGecko, con link di attribuzione visibile in ogni scheda).
 4. **Indicizzazione**: con `demoMode: true` il sito è `noindex` e `robots.txt` blocca tutto.
 5. **Autenticazione**: email e password via Supabase, sessione in cookie httpOnly. Provvisoria: manca il recupero password. Vedi [Accesso e registrazione](#accesso-e-registrazione). Prima di aprire le registrazioni al pubblico servono privacy policy e termini reali (oggi sono segnaposto).
 6. **Testi legali e disclaimer**: segnaposto da far redigere al consulente legale (quadro MiCA / autorità italiane).
