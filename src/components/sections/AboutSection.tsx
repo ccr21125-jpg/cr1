@@ -16,7 +16,7 @@ export async function AboutSection() {
   const hasDemo = stats.some((s) => s.isDemo);
 
   return (
-    <section aria-labelledby="about-title" className="relative isolate overflow-hidden border-y border-line bg-[#070b0a] py-24 sm:py-32">
+    <section id="chi-siamo" aria-labelledby="about-title" className="relative isolate overflow-hidden border-y border-line bg-[#070b0a] py-24 sm:py-32">
       {/* Alone verde in alto a sinistra, come nel resto del sito: solo decorazione */}
       <div
         aria-hidden="true"
