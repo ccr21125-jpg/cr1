@@ -14,7 +14,7 @@ import {
   registerContent,
   siteConfig,
   signupFieldLabels,
-  statsContent,
+  aboutContent,
   steps,
   successContent,
   toolsContent,
@@ -171,12 +171,17 @@ export async function getSteps() {
   }));
 }
 
-export async function getStatsContent() {
+/** Sezione "Chi siamo". Resta sotto la chiave "stats" in site_content per non perdere ciò che l'amministratore ha già salvato. */
+export async function getAboutContent() {
   const flat = await getSiteContentFlat("stats");
   return {
-    title: pick(flat, "title", statsContent.title),
-    description: pick(flat, "description", statsContent.description),
-    demoBadgeLabel: pick(flat, "demoBadgeLabel", statsContent.demoBadgeLabel),
+    eyebrow: pick(flat, "eyebrow", aboutContent.eyebrow),
+    title: pick(flat, "title", aboutContent.title),
+    description: pick(flat, "description", aboutContent.description),
+    bullets: aboutContent.bullets
+      .map((bullet, i) => pick(flat, `bullet_${i + 1}`, bullet))
+      .filter((text) => text.length > 0),
+    demoBadgeLabel: pick(flat, "demoBadgeLabel", aboutContent.demoBadgeLabel),
   };
 }
 

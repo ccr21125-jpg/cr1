@@ -191,14 +191,23 @@ export const steps: Step[] = [
 ];
 
 /* ===========================================================================
- * 9. STATISTICHE
- * I numeri di partenza stanno in src/data/stats.mock.ts; l'amministratore
- * li sovrascrive da /dashboard/admin/contenuti (statsService).
+ * 9. CHI SIAMO
+ * Testo a sinistra, numeri a destra. I numeri di partenza stanno in
+ * src/data/stats.mock.ts; l'amministratore sovrascrive testi e numeri da
+ * /dashboard/admin/contenuti (statsService).
  * =========================================================================== */
 
-export const statsContent = {
-  title: "Una piattaforma costruita per crescere.",
-  description: "Gli indicatori che pubblicheremo man mano che la piattaforma cresce.",
+export const aboutContent = {
+  eyebrow: "Chi siamo",
+  title: "Un partner affidabile per orientarti nei mercati crypto",
+  description:
+    "Siamo un gruppo di sviluppatori e analisti che costruisce strumenti chiari per seguire i mercati, con grande attenzione alla trasparenza e alla cura di chi usa la piattaforma ogni giorno.",
+  bullets: [
+    "Strumenti semplici da usare, anche per chi inizia",
+    "Informazioni di mercato aggiornate e facili da leggere",
+    "Assistenza in italiano per ogni dubbio",
+    "Un'unica piattaforma per seguire e analizzare i mercati",
+  ],
   demoBadgeLabel: "Valori dimostrativi da sostituire",
 };
 

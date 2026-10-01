@@ -1,3 +1,4 @@
+import { AboutSection } from "@/components/sections/AboutSection";
 import { Container } from "@/components/ui/Container";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { FinalCTA } from "@/components/sections/FinalCTA";
@@ -5,7 +6,6 @@ import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { FeaturedMarket, MarketBoard, MarketBoardShell } from "@/components/sections/MarketBlocks";
 import { MultichainSection } from "@/components/sections/MultichainSection";
-import { Statistics } from "@/components/sections/Statistics";
 import { SuccessSection } from "@/components/sections/SuccessSection";
 import { TradingTools } from "@/components/sections/TradingTools";
 
@@ -34,7 +34,7 @@ export default function HomePage() {
       <MultichainSection />
       <TradingTools />
       <HowItWorks />
-      <Statistics />
+      <AboutSection />
       <FAQSection />
       <FinalCTA />
     </>

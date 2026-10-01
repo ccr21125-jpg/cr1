@@ -30,7 +30,7 @@ import {
   registerContent,
   siteConfig,
   signupFieldLabels,
-  statsContent,
+  aboutContent,
   steps,
   successContent,
   toolsContent,
@@ -192,12 +192,19 @@ export const siteContentSections: SiteContentSection[] = [
   },
   {
     key: "stats",
-    label: "Statistiche",
+    label: "Chi siamo (homepage)",
     description:
-      "Titolo, numeri, unità ed etichette delle cinque statistiche. Il numero si scrive senza separatore delle migliaia e con la virgola per i decimali (es. 25000 oppure 1,2). Togli la spunta da «Dato dimostrativo» solo per cifre vere e verificate: allora sotto al numero compare la fonte, e l'etichetta gialla in alto sparisce quando nessuna cifra è più dimostrativa.",
+      "Testo a sinistra e quattro numeri a destra. Il numero si scrive senza separatore delle migliaia e con la virgola per i decimali (es. 25000 oppure 1,2). Togli la spunta da «Dato dimostrativo» solo per cifre vere e verificate: allora sotto al numero compare la fonte, e l'etichetta gialla sparisce quando nessuna cifra è più dimostrativa. Per nascondere un punto elenco, svuota il suo campo.",
     fields: [
-      { key: "title", label: "Titolo", kind: "text", maxLength: 100 },
-      { key: "description", label: "Descrizione", kind: "textarea", maxLength: 200 },
+      { key: "eyebrow", label: "Etichetta sopra al titolo", kind: "text", maxLength: 40 },
+      { key: "title", label: "Titolo", kind: "text", maxLength: 120 },
+      { key: "description", label: "Descrizione", kind: "textarea", maxLength: 400 },
+      ...aboutContent.bullets.map((_, i): SiteContentField => ({
+        key: `bullet_${i + 1}`,
+        label: `Punto elenco ${i + 1}`,
+        kind: "text",
+        maxLength: 120,
+      })),
       { key: "demoBadgeLabel", label: "Etichetta dati dimostrativi", kind: "text", maxLength: 80 },
       ...mockStats.flatMap((s): SiteContentField[] => [
         { key: `${s.id}_value`, label: `${s.label} — numero`, kind: "text", maxLength: 14 },
@@ -208,9 +215,11 @@ export const siteContentSections: SiteContentSection[] = [
       ]),
     ],
     defaults: {
-      title: statsContent.title,
-      description: statsContent.description,
-      demoBadgeLabel: statsContent.demoBadgeLabel,
+      eyebrow: aboutContent.eyebrow,
+      title: aboutContent.title,
+      description: aboutContent.description,
+      ...Object.fromEntries(aboutContent.bullets.map((bullet, i) => [`bullet_${i + 1}`, bullet])),
+      demoBadgeLabel: aboutContent.demoBadgeLabel,
       ...Object.fromEntries(mockStats.flatMap((s) => [
         [`${s.id}_value`, String(s.value).replace(".", ",")],
         [`${s.id}_suffix`, (s.suffix ?? "").replace(/\u00a0/g, " ").trim()],
