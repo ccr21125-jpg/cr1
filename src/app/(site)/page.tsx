@@ -5,7 +5,6 @@ import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { FeaturedMarket, MarketBoard, MarketBoardShell } from "@/components/sections/MarketBlocks";
 import { MultichainSection } from "@/components/sections/MultichainSection";
-import { Reviews } from "@/components/sections/Reviews";
 import { Statistics } from "@/components/sections/Statistics";
 import { SuccessSection } from "@/components/sections/SuccessSection";
 import { TradingTools } from "@/components/sections/TradingTools";
@@ -36,7 +35,6 @@ export default function HomePage() {
       <TradingTools />
       <HowItWorks />
       <Statistics />
-      <Reviews />
       <FAQSection />
       <FinalCTA />
     </>

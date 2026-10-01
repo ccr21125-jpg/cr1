@@ -12,7 +12,6 @@ import {
   marketContent,
   multichainContent,
   registerContent,
-  reviewsContent,
   siteConfig,
   signupFieldLabels,
   statsContent,
@@ -178,15 +177,6 @@ export async function getStatsContent() {
     title: pick(flat, "title", statsContent.title),
     description: pick(flat, "description", statsContent.description),
     demoBadgeLabel: pick(flat, "demoBadgeLabel", statsContent.demoBadgeLabel),
-  };
-}
-
-export async function getReviewsContent() {
-  const flat = await getSiteContentFlat("reviews");
-  return {
-    title: pick(flat, "title", reviewsContent.title),
-    demoNote: pick(flat, "demoNote", reviewsContent.demoNote),
-    demoBadgeLabel: pick(flat, "demoBadgeLabel", reviewsContent.demoBadgeLabel),
   };
 }
 

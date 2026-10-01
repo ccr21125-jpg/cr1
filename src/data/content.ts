@@ -95,7 +95,7 @@ export const successContent = {
    * null = nessun dato verificato con fonte → si mostra `metricValue` invece,
    * una cifra dimostrativa (vedi `metricLabel`), non una metrica certificata.
    * ⚠️ AUDIT: su richiesta esplicita resta senza badge "dato dimostrativo"
-   * (altrove sul sito statistiche e recensioni demo lo mostrano sempre): va
+   * (altrove sul sito le statistiche demo lo mostrano sempre): va
    * aggiunto, o il numero sostituito da uno vero con fonte, prima del lancio.
    */
   verifiedMetric: null as null | { value: string; label: string; source: string },
@@ -200,17 +200,6 @@ export const statsContent = {
   title: "Una piattaforma costruita per crescere.",
   description: "Gli indicatori che pubblicheremo man mano che la piattaforma cresce.",
   demoBadgeLabel: "Valori dimostrativi da sostituire",
-};
-
-/* ===========================================================================
- * 10. RECENSIONI
- * I testi delle singole recensioni stanno in src/data/reviews.mock.ts
- * =========================================================================== */
-
-export const reviewsContent = {
-  title: "Cosa dicono i nostri clienti",
-  demoNote: "Recensioni dimostrative — sostituire con recensioni verificate prima della pubblicazione.",
-  demoBadgeLabel: "Recensioni dimostrative",
 };
 
 /* ===========================================================================
