@@ -49,5 +49,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   /** Esclude asset statici e immagini: il proxy gira solo sulle pagine. */
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg|opengraph-image|robots.txt|sitemap.xml).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.png|logo.png|opengraph-image|robots.txt|sitemap.xml).*)"],
 };
