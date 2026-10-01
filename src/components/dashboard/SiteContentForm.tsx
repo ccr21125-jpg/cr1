@@ -11,6 +11,15 @@ import { Card } from "./Card";
 const initialState: SiteContentFormState = {};
 
 function FieldInput({ id, field, defaultValue }: { id: string; field: SiteContentField; defaultValue: string }) {
+  if (field.kind === "checkbox") {
+    return (
+      <label htmlFor={id} className="flex items-center gap-2.5 text-sm font-medium text-paper">
+        <input id={id} name={field.key} type="checkbox" defaultChecked={defaultValue === "true"} className="size-4 accent-[var(--color-mint)]" />
+        {field.label}
+      </label>
+    );
+  }
+
   const control =
     "mt-1.5 w-full rounded-[var(--radius-control)] border border-line-strong bg-panel px-3.5 text-paper outline-none transition-colors placeholder:text-mist/60 focus:border-mint/60";
 

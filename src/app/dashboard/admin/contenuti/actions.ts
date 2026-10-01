@@ -49,7 +49,11 @@ export async function saveSiteContentAction(
 
   const data: Record<string, string> = {};
   for (const field of section.fields) {
-    data[field.key] = sanitizeText(formData.get(field.key), field.maxLength);
+    // Una casella non spuntata non arriva nel FormData: assente = "false".
+    data[field.key] =
+      field.kind === "checkbox"
+        ? String(formData.get(field.key) === "on")
+        : sanitizeText(formData.get(field.key), field.maxLength);
   }
 
   const result = await setSiteContent(sectionKey, data);
