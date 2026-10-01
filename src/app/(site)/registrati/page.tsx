@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AuthNotConfigured, AuthShell } from "@/components/auth/AuthShell";
 import { SignUpForm } from "@/components/auth/SignUpForm";
-import { authErrors, registerContent } from "@/data/content";
+import { authErrors } from "@/data/content";
 import { AFTER_LOGIN_PATH, isSupabaseConfigured } from "@/lib/supabase/config";
 import { getCurrentUser } from "@/lib/supabase/server";
+import { getSignupForm } from "@/services/content/siteContentService";
 
 export const metadata: Metadata = { title: "Registrati", robots: { index: false } };
 
@@ -16,18 +17,20 @@ export default async function RegisterPage() {
     redirect(AFTER_LOGIN_PATH);
   }
 
+  const signup = await getSignupForm();
+
   return (
     <AuthShell
-      title={registerContent.title}
-      description={registerContent.description}
-      footerPrompt={registerContent.switchPrompt}
-      footerLabel={registerContent.switchLink}
+      title={signup.title}
+      description={signup.description}
+      footerPrompt={signup.switchPrompt}
+      footerLabel={signup.switchLink}
       footerHref="/accedi"
-      note={registerContent.legalNote}
+      note={signup.legalNote}
       wide
     >
       {isSupabaseConfigured() ? (
-        <SignUpForm />
+        <SignUpForm signup={signup} />
       ) : (
         <AuthNotConfigured message={authErrors.notConfigured} />
       )}

@@ -1,18 +1,19 @@
 /**
  * ============================================================================
- * QUALI TESTI DELLA HOMEPAGE L'AMMINISTRATORE PUÒ MODIFICARE.
+ * QUALI TESTI DEL SITO L'AMMINISTRATORE PUÒ MODIFICARE.
  *
  * Ogni sezione qui sotto corrisponde a una riga di `site_content` (chiave =
  * `key`) e a un modulo nel pannello /dashboard/admin/contenuti. I valori di
  * partenza (`defaults`) sono presi da src/data/content.ts: finché
- * l'amministratore non salva nulla per una sezione, la homepage mostra
- * esattamente questi testi, invariati rispetto a oggi.
+ * l'amministratore non salva nulla per una sezione, il sito mostra
+ * esattamente questi testi, invariati rispetto a oggi. Copre sia la homepage
+ * sia, più avanti nel file, il modulo di registrazione.
  *
- * Gli array a lunghezza fissa (funzionalità, passaggi, paragrafi) sono
- * "appiattiti" in chiavi singole (es. "flow_1_title") invece di restare
- * annidati: così il modulo di modifica è una lista di campi di testo, non un
- * editor di struttura. L'amministratore cambia le PAROLE, non l'elenco delle
- * sezioni o quante voci contiene.
+ * Gli array a lunghezza fissa (funzionalità, passaggi, paragrafi, campi di un
+ * modulo) sono "appiattiti" in chiavi singole (es. "flow_1_title") invece di
+ * restare annidati: così il modulo di modifica è una lista di campi di
+ * testo, non un editor di struttura. L'amministratore cambia le PAROLE, non
+ * l'elenco delle sezioni, quante voci contiene o quali campi esistono.
  * ============================================================================
  */
 import {
@@ -25,7 +26,9 @@ import {
   legalDisclaimer,
   marketContent,
   multichainContent,
+  registerContent,
   reviewsContent,
+  signupFieldLabels,
   statsContent,
   steps,
   successContent,
@@ -253,6 +256,52 @@ export const siteContentSections: SiteContentSection[] = [
       sensitive: true,
     })),
     defaults: Object.fromEntries(legalDisclaimer.map((line, i) => [`line_${i + 1}`, line])),
+  },
+  {
+    key: "signup_form",
+    label: "Modulo di registrazione",
+    description:
+      "Testi, etichette ed esempi del modulo che i nuovi utenti compilano per creare un account. L'etichetta \"Email\" e \"Password\" sono una copia propria: cambiarle qui non tocca la pagina di accesso.",
+    fields: [
+      { key: "title", label: "Titolo della pagina", kind: "text", maxLength: 100 },
+      { key: "description", label: "Sottotitolo della pagina", kind: "textarea", maxLength: 200 },
+      { key: "button", label: "Testo del pulsante di invio", kind: "text", maxLength: 60 },
+      { key: "switchPrompt", label: "Testo prima del link verso l'accesso", kind: "text", maxLength: 80 },
+      { key: "switchLink", label: "Testo del link verso l'accesso", kind: "text", maxLength: 40 },
+      { key: "passwordHint", label: "Suggerimento sotto il campo password", kind: "text", maxLength: 100 },
+      { key: "legalNote", label: "Nota legale sotto al modulo", kind: "textarea", maxLength: 400, sensitive: true },
+      { key: "firstName", label: "Etichetta campo Nome", kind: "text", maxLength: 40 },
+      { key: "lastName", label: "Etichetta campo Cognome", kind: "text", maxLength: 40 },
+      { key: "email", label: "Etichetta campo Email", kind: "text", maxLength: 40 },
+      { key: "emailPlaceholder", label: "Esempio nel campo Email", kind: "text", maxLength: 60 },
+      { key: "phone", label: "Etichetta campo Telefono", kind: "text", maxLength: 40 },
+      { key: "phonePlaceholder", label: "Esempio nel campo Telefono", kind: "text", maxLength: 60 },
+      { key: "city", label: "Etichetta campo Città", kind: "text", maxLength: 40 },
+      { key: "amount", label: "Etichetta campo Somma", kind: "text", maxLength: 40 },
+      { key: "amountPlaceholder", label: "Esempio nel campo Somma", kind: "text", maxLength: 40 },
+      { key: "amountHint", label: "Suggerimento sotto il campo Somma", kind: "textarea", maxLength: 200 },
+      { key: "password", label: "Etichetta campo Password", kind: "text", maxLength: 40 },
+    ],
+    defaults: {
+      title: registerContent.title,
+      description: registerContent.description,
+      button: registerContent.button,
+      switchPrompt: registerContent.switchPrompt,
+      switchLink: registerContent.switchLink,
+      passwordHint: registerContent.passwordHint,
+      legalNote: registerContent.legalNote,
+      firstName: signupFieldLabels.firstName,
+      lastName: signupFieldLabels.lastName,
+      email: signupFieldLabels.email,
+      emailPlaceholder: signupFieldLabels.emailPlaceholder,
+      phone: signupFieldLabels.phone,
+      phonePlaceholder: signupFieldLabels.phonePlaceholder,
+      city: signupFieldLabels.city,
+      amount: signupFieldLabels.amount,
+      amountPlaceholder: signupFieldLabels.amountPlaceholder,
+      amountHint: signupFieldLabels.amountHint,
+      password: signupFieldLabels.password,
+    },
   },
 ];
 

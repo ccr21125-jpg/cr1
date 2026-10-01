@@ -324,7 +324,20 @@ export const registerContent = {
     "Proseguendo accetti i Termini e condizioni e la Privacy Policy. Questa è una versione dimostrativa: non inserire dati sensibili.",
 };
 
+/** Campi condivisi da accesso e registrazione: cambiarli qui li cambia in entrambi i moduli. */
 export const authFormLabels = {
+  email: "Email",
+  emailPlaceholder: "nome@esempio.it",
+  password: "Password",
+  pending: "Attendi…",
+};
+
+/**
+ * Etichette dei campi del modulo di registrazione: una copia propria, non
+ * condivisa con l'accesso, così modificarle dal pannello admin
+ * (/dashboard/admin/contenuti) non tocca la pagina di login.
+ */
+export const signupFieldLabels = {
   firstName: "Nome",
   lastName: "Cognome",
   email: "Email",
@@ -336,7 +349,6 @@ export const authFormLabels = {
   amountPlaceholder: "1000",
   amountHint: "Importo indicativo in EUR. Nessun pagamento viene richiesto ora.",
   password: "Password",
-  pending: "Attendi…",
 };
 
 export const authErrors = {
@@ -771,9 +783,9 @@ export const adminPage = {
 
 export const siteContentPage = {
   navLabel: "Contenuti sito",
-  title: "Contenuti della homepage",
+  title: "Contenuti del sito",
   description:
-    "Modifica i testi mostrati sulla homepage pubblica. Ogni sezione si salva a parte; le modifiche compaiono sul sito entro un minuto, o subito dopo il salvataggio.",
+    "Modifica i testi della homepage pubblica e del modulo di registrazione. Ogni sezione si salva a parte; le modifiche compaiono sul sito entro un minuto, o subito dopo il salvataggio.",
   save: "Salva sezione",
   saving: "Salvataggio…",
   saveDone: "Sezione aggiornata.",

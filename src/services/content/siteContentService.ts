@@ -10,7 +10,9 @@ import {
   legalDisclaimer,
   marketContent,
   multichainContent,
+  registerContent,
   reviewsContent,
+  signupFieldLabels,
   statsContent,
   steps,
   successContent,
@@ -205,6 +207,32 @@ export async function getFinalCtaContent() {
 export async function getLegalDisclaimer(): Promise<string[]> {
   const flat = await getSiteContentFlat("legal");
   return legalDisclaimer.map((line, i) => pick(flat, `line_${i + 1}`, line));
+}
+
+export async function getSignupForm() {
+  const flat = await getSiteContentFlat("signup_form");
+  return {
+    title: pick(flat, "title", registerContent.title),
+    description: pick(flat, "description", registerContent.description),
+    button: pick(flat, "button", registerContent.button),
+    switchPrompt: pick(flat, "switchPrompt", registerContent.switchPrompt),
+    switchLink: pick(flat, "switchLink", registerContent.switchLink),
+    passwordHint: pick(flat, "passwordHint", registerContent.passwordHint),
+    legalNote: pick(flat, "legalNote", registerContent.legalNote),
+    fields: {
+      firstName: pick(flat, "firstName", signupFieldLabels.firstName),
+      lastName: pick(flat, "lastName", signupFieldLabels.lastName),
+      email: pick(flat, "email", signupFieldLabels.email),
+      emailPlaceholder: pick(flat, "emailPlaceholder", signupFieldLabels.emailPlaceholder),
+      phone: pick(flat, "phone", signupFieldLabels.phone),
+      phonePlaceholder: pick(flat, "phonePlaceholder", signupFieldLabels.phonePlaceholder),
+      city: pick(flat, "city", signupFieldLabels.city),
+      amount: pick(flat, "amount", signupFieldLabels.amount),
+      amountPlaceholder: pick(flat, "amountPlaceholder", signupFieldLabels.amountPlaceholder),
+      amountHint: pick(flat, "amountHint", signupFieldLabels.amountHint),
+      password: pick(flat, "password", signupFieldLabels.password),
+    },
+  };
 }
 
 /**
