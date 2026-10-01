@@ -7,6 +7,7 @@ import { Sidebar } from "@/components/dashboard/Sidebar";
 import { adminPage, dashboardNav, pagesAdminContent, siteContentPage } from "@/data/content";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getAccount } from "@/services/account/accountService";
+import { getSiteName } from "@/services/content/siteContentService";
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
@@ -20,7 +21,7 @@ export const dynamic = "force-dynamic";
  */
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   if (!isSupabaseConfigured()) redirect("/accedi");
-  const account = await getAccount();
+  const [account, siteName] = await Promise.all([getAccount(), getSiteName()]);
   if (!account) redirect("/accedi?next=/dashboard");
 
   // La voce compare solo agli amministratori; il permesso vero però sta nel
@@ -42,7 +43,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
       <div className="dash relative isolate min-h-dvh lg:pl-[17rem]">
         {/* isolate + -z-10: l'alone resta dietro al contenuto di questo riquadro */}
         <div aria-hidden="true" className="dash-aura -z-10" />
-        <Sidebar items={items} balanceSats={account.balanceSats} currency={account.currency} />
+        <Sidebar items={items} balanceSats={account.balanceSats} currency={account.currency} siteName={siteName} />
         <main id="contenuto" tabIndex={-1} className="outline-none">
           <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-10">{children}</div>
         </main>

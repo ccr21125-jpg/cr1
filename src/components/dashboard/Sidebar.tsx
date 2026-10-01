@@ -83,8 +83,10 @@ export function Sidebar({
   items,
   balanceSats,
   currency,
+  siteName,
 }: {
   items: DashboardNavItem[];
+  siteName: string;
   balanceSats: number;
   currency: string;
 }) {
@@ -114,7 +116,7 @@ export function Sidebar({
     <>
       {/* Barra mobile */}
       <div className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-line bg-ink/90 px-5 backdrop-blur-md lg:hidden">
-        <Logo />
+        <Logo name={siteName} />
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -143,7 +145,7 @@ export function Sidebar({
       {/* Sidebar desktop */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[17rem] flex-col border-r border-line bg-panel px-4 py-6 lg:flex">
         <div className="px-3">
-          <Logo />
+          <Logo name={siteName} />
         </div>
         <div className="mt-6">
           <SidebarBalance balanceSats={balanceSats} currency={currency} />

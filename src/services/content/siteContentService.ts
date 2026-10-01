@@ -13,6 +13,7 @@ import {
   multichainContent,
   registerContent,
   reviewsContent,
+  siteConfig,
   signupFieldLabels,
   statsContent,
   steps,
@@ -79,6 +80,12 @@ export async function getSiteContentFlat(sectionKey: string): Promise<Record<str
 function pick(flat: Record<string, string>, key: string, fallback: string): string {
   const value = flat[key];
   return value !== undefined && value !== "" ? value : fallback;
+}
+
+/** Nome del sito mostrato accanto al logo, nei metadati e nell'anteprima social. */
+export async function getSiteName(): Promise<string> {
+  const flat = await getSiteContentFlat("brand");
+  return pick(flat, "name", siteConfig.name);
 }
 
 export async function getHeroContent() {

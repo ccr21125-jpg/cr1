@@ -59,7 +59,8 @@ export async function saveSiteContentAction(
   // immediata (read-your-own-writes), non quella pianificata per un profilo di
   // cache. Il revalidatePath che segue rigenera subito anche la pagina.
   updateTag(SITE_CONTENT_TAG);
-  revalidatePath("/");
+  // Il nome del sito sta nei layout (barra, footer, titolo scheda), non solo nella homepage.
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/contenuti");
   return { success: siteContentPage.saveDone };
 }

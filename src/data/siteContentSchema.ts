@@ -29,6 +29,7 @@ import {
   multichainContent,
   registerContent,
   reviewsContent,
+  siteConfig,
   signupFieldLabels,
   statsContent,
   steps,
@@ -56,6 +57,14 @@ export interface SiteContentSection {
 }
 
 export const siteContentSections: SiteContentSection[] = [
+  {
+    key: "brand",
+    label: "Nome del sito",
+    description:
+      "Compare accanto al logo (barra in alto, footer, area riservata), nel titolo delle schede del browser e nell'anteprima condivisa sui social. La ragione sociale del copyright si modifica a parte, in \"Testo legale (footer)\".",
+    fields: [{ key: "name", label: "Nome del sito", kind: "text", maxLength: 60 }],
+    defaults: { name: siteConfig.name },
+  },
   {
     key: "hero",
     label: "Sezione iniziale (Hero)",
