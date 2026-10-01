@@ -1,3 +1,4 @@
+import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
@@ -5,7 +6,12 @@ import { getSuccessContent } from "@/services/content/siteContentService";
 
 type SuccessContent = Awaited<ReturnType<typeof getSuccessContent>>;
 
-/** Metrica: mostra il dato solo se verificato (con fonte), altrimenti un segnaposto esplicito. */
+/**
+ * Metrica: se c'è un dato verificato con fonte lo mostra con la citazione;
+ * altrimenti anima `metricValue`, una cifra dimostrativa impostata
+ * dall'amministratore (/dashboard/admin/contenuti), non una metrica
+ * certificata — va trattata di conseguenza finché non lo diventa davvero.
+ */
 function MetricSlot({ c }: { c: SuccessContent }) {
   if (c.verifiedMetric) {
     return (
@@ -16,15 +22,16 @@ function MetricSlot({ c }: { c: SuccessContent }) {
       </div>
     );
   }
+
+  const parsed = Number(c.metricValue.replace(",", "."));
+  const metric = Number.isFinite(parsed) ? parsed : 0;
+
   return (
-    <div className="flex items-center gap-5 rounded-[var(--radius-card)] border border-dashed border-line-strong p-6">
-      <span aria-hidden="true" className="font-display tabular whitespace-nowrap text-5xl text-line-strong">
-        –,–%
-      </span>
-      <div>
-        <p className="font-medium text-paper">{c.placeholderLabel}</p>
-        <p className="mt-1 text-sm text-mist">{c.placeholderHint}</p>
-      </div>
+    <div className="rounded-[var(--radius-card)] border border-line bg-panel p-6">
+      <p className="font-display tabular text-5xl text-mint">
+        <AnimatedCounter value={metric} suffix="%" />
+      </p>
+      <p className="mt-2 text-sm text-paper">{c.metricLabel}</p>
     </div>
   );
 }

@@ -107,8 +107,8 @@ export async function getSuccessContent() {
       pick(flat, "body_2", successContent.body[1] ?? ""),
     ],
     verifiedMetric: successContent.verifiedMetric,
-    placeholderLabel: pick(flat, "placeholderLabel", successContent.placeholderLabel),
-    placeholderHint: pick(flat, "placeholderHint", successContent.placeholderHint),
+    metricValue: pick(flat, "metricValue", successContent.metricValue),
+    metricLabel: pick(flat, "metricLabel", successContent.metricLabel),
     flow: successContent.flow.map((step, i) => ({
       title: pick(flat, `flow_${i + 1}_title`, step.title),
       detail: pick(flat, `flow_${i + 1}_detail`, step.detail),

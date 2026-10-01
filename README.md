@@ -274,7 +274,7 @@ Il resto sono elenchi di dati, tenuti separati:
 
 ## Punti da verificare prima dell'audit
 
-1. **"Tasso di successo comprovato."** (`content.ts`): "comprovato" afferma una prova. La metrica si mostra solo se `verifiedMetric` include una fonte.
+1. **"Tasso di successo comprovato."** (`content.ts`): "comprovato" afferma una prova. La metrica mostrata oggi (`successContent.metricValue`, modificabile da `/dashboard/admin/contenuti`) è dimostrativa e senza fonte, senza badge "dato dimostrativo" — su richiesta esplicita, non dimenticare prima del lancio. `verifiedMetric` resta pronto per quando ci sarà un dato vero con fonte da citare: a quel punto prende il posto della cifra dimostrativa.
 2. **"Regolamento rapido"** (`features.ts`): sostituisce "istantaneo" finché non è tecnicamente verificato.
 3. **Statistiche e recensioni**: tutte marcate come dimostrative, tranne "Blockchain supportate" (derivata dalla configurazione) e i **prezzi crypto** (reali, via CoinGecko, con link di attribuzione visibile in ogni scheda).
 4. **Indicizzazione**: con `demoMode: true` il sito è `noindex` e `robots.txt` blocca tutto.

@@ -91,10 +91,16 @@ export const successContent = {
     "I modelli automatici elaborano grandi quantità di dati di mercato e mettono in evidenza segnali, anomalie e scenari da approfondire.",
     "Gli specialisti valutano quanto emerso, aggiungono contesto e decidono cosa proporre. Il risultato è un supporto alle decisioni: la scelta finale resta sempre all'utente.",
   ],
-  /** null = nessun dato verificato disponibile → viene mostrato il segnaposto. */
+  /**
+   * null = nessun dato verificato con fonte → si mostra `metricValue` invece,
+   * una cifra dimostrativa (vedi `metricLabel`), non una metrica certificata.
+   * ⚠️ AUDIT: su richiesta esplicita resta senza badge "dato dimostrativo"
+   * (altrove sul sito statistiche e recensioni demo lo mostrano sempre): va
+   * aggiunto, o il numero sostituito da uno vero con fonte, prima del lancio.
+   */
   verifiedMetric: null as null | { value: string; label: string; source: string },
-  placeholderLabel: "Dati verificati in arrivo",
-  placeholderHint: "Le metriche saranno pubblicate solo dopo una verifica indipendente.",
+  metricValue: "92",
+  metricLabel: "Tasso di successo",
   flow: [
     { title: "Mercato", detail: "Prezzi, volumi e dati on-chain" },
     { title: "AI Analysis", detail: "Modelli che filtrano e classificano i segnali" },
